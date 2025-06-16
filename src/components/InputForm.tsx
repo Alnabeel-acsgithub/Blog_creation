@@ -8,10 +8,10 @@ interface InputFormProps {
 
 export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   const [inputs, setInputs] = useState<BlogInputs>({
-    website_url: "www.agilecyber.com",
-    tone_of_voice:"Professional",
-    target_audience: "manager",
-    business_type : "software"
+    website_url: "",
+    tone_of_voice:"",
+    target_audience: "",
+    business_type : ""
    
 });
 
@@ -20,7 +20,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
     onSubmit(inputs);
   };
 
-  const isFormValid = inputs.websiteUrl && inputs.businessType && inputs.targetAudience;
+  const isFormValid = inputs.website_url && inputs.business_type && inputs.target_audience;
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -38,8 +38,8 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
             </label>
             <input
               type="url"
-              value={inputs.websiteUrl}
-              onChange={(e) => setInputs({ ...inputs, websiteUrl: e.target.value })}
+              value={inputs.website_url}
+              onChange={(e) => setInputs({ ...inputs, website_url: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               placeholder="https://yourwebsite.com"
               required
@@ -53,8 +53,8 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
             </label>
             <input
               type="text"
-              value={inputs.businessType}
-              onChange={(e) => setInputs({ ...inputs, businessType: e.target.value })}
+              value={inputs.business_type}
+              onChange={(e) => setInputs({ ...inputs, business_type: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
               placeholder="e.g., SaaS, E-commerce, Consulting, Healthcare"
               required
@@ -67,8 +67,8 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
               Target Audience
             </label>
             <textarea
-              value={inputs.targetAudience}
-              onChange={(e) => setInputs({ ...inputs, targetAudience: e.target.value })}
+              value={inputs.target_audience}
+              onChange={(e) => setInputs({ ...inputs, target_audience: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 h-24 resize-none"
               placeholder="Describe your ideal readers: demographics, interests, pain points, goals..."
               required
@@ -81,8 +81,8 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
               Tone of Voice
             </label>
             <select
-              value={inputs.toneOfVoice}
-              onChange={(e) => setInputs({ ...inputs, toneOfVoice: e.target.value })}
+              value={inputs.tone_of_voice}
+              onChange={(e) => setInputs({ ...inputs, tone_of_voice: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
             >
               <option value="casual">Casual & Friendly</option>
