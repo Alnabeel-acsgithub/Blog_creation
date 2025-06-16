@@ -9,9 +9,9 @@ interface InputFormProps {
 export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   const [inputs, setInputs] = useState<BlogInputs>({
     website_url: "",
-    tone_of_voice:"",
     target_audience: "",
-    business_type : ""
+    business_type : "",
+    tone_of_voice:"professional",
    
 });
 
