@@ -1,8 +1,8 @@
 export interface BlogInputs {
-  websiteUrl: string;
-  businessType: string;
-  targetAudience: string;
-  toneOfVoice: string;
+  website_url: string;
+  business_type: string;
+  target_audience: string;
+  tone_of_voice: string;
 }
 
 export interface BlogIdea {

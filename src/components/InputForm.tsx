@@ -1,5 +1,5 @@
+import { ArrowRight, Building2, Globe, MessageSquare, Users } from 'lucide-react';
 import React, { useState } from 'react';
-import { Globe, Building2, Users, MessageSquare, ArrowRight } from 'lucide-react';
 import { BlogInputs } from '../types';
 
 interface InputFormProps {
@@ -8,11 +8,12 @@ interface InputFormProps {
 
 export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   const [inputs, setInputs] = useState<BlogInputs>({
-    websiteUrl: '',
-    businessType: '',
-    targetAudience: '',
-    toneOfVoice: 'professional',
-  });
+    website_url: "www.agilecyber.com",
+    tone_of_voice:"Professional",
+    target_audience: "manager",
+    business_type : "software"
+   
+});
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
