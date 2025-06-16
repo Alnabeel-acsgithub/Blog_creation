@@ -15,7 +15,8 @@ export async function fetchBlogIdeas(payload:any) {
     if (!response.ok) {
       throw new Error("API call failed: " + response.status);
     }
-console.log(response);
+    const data = await response.json();
+    return data
 
 
     // Validate data structure
