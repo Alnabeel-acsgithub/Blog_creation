@@ -4,7 +4,7 @@ export async function fetchBlogIdeas(payload:any) {
   try {
     console.log(payload,"pppppppp");
     
-    const response = await fetch("https://workflows.agilecyber.com/webhook-test/form_submit", {
+    const response = await fetch("https://workflows.agilecyber.com/webhook/form_submit", {
       method: "POST",  // or "GET" depending on your backend design
       headers: {
         "Content-Type": "application/json"
