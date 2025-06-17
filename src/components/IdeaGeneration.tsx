@@ -4,7 +4,10 @@ import { fetchBlogIdeas } from '../Services/ContentIdeas';
 import { BlogIdea } from '../types';
 
 interface IdeaGenerationProps {
-  inputs: any;
+  inputs: {
+    businessType: string;
+    // Add other properties as needed based on your usage
+  };
   onSelectIdea: (idea: BlogIdea) => void;
   onRegenerateIdeas: () => void;
 }

@@ -5,6 +5,14 @@ export interface BlogInputs {
   tone_of_voice: string;
 }
 
+export interface BlogPayload {
+  id: number;
+  title: string;
+  description: string;
+  keywords: string[];
+  website_url: string;
+}
+
 export interface BlogIdea {
   id: string;
   title: string;
@@ -15,7 +23,7 @@ export interface BlogIdea {
 export interface BlogPost {
   title: string;
   content: string;
-  estimatedReadTime: number;
+  estimated_read_time: number;
   tags: string[];
 }
 
