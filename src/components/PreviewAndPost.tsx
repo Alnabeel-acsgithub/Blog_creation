@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
-import { 
-  Eye, 
-  Share2, 
-  Download, 
-  ExternalLink, 
-  Clock, 
-  Tag, 
-  RefreshCw, 
+import {
+  Calendar,
   CheckCircle,
-  Twitter,
-  Linkedin,
+  Clock,
+  Download,
+  Eye,
   Facebook,
-  Instagram,
   Globe,
-  Calendar
+  Instagram,
+  Linkedin,
+  RefreshCw,
+  Share2,
+  Tag,
+  Twitter
 } from 'lucide-react';
+import React, { useState } from 'react';
 import { BlogPost, GeneratedImage, SocialMediaPost } from '../types';
 
 interface PreviewAndPostProps {
@@ -134,7 +133,7 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
                     <div className="flex items-center space-x-6 text-sm text-gray-200">
                       <div className="flex items-center">
                         <Clock className="w-4 h-4 mr-2" />
-                        <span>{post.estimatedReadTime} min read</span>
+                        <span>{post.estimated_read_time} min read</span>
                       </div>
                       <div className="flex items-center">
                         <Tag className="w-4 h-4 mr-2" />
