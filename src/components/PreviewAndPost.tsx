@@ -124,7 +124,7 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
                 <div className="relative">
                   <img
                     src={image.url}
-                    alt={image.alt}
+                    alt="Gen Image"
                     className="w-full h-64 object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -152,7 +152,8 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
                     className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900"
                     dangerouslySetInnerHTML={{ 
                       __html: post.content.substring(0, 500).replace(/\n/g, '<br>').replace(/#{1,6}\s+(.+)/g, (match, p1) => {
-                        const level = match.match(/^#+/)[0].length;
+                        const matchResult = match.match(/^#+/);
+                        const level = matchResult ? matchResult[0].length : 1;
                         return `<h${level} class="font-bold text-gray-900 mt-6 mb-3">${p1}</h${level}>`;
                       }) + '...'
                     }}

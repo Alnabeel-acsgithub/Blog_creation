@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Twitter, Linkedin, Facebook, Instagram, Copy, Check, ArrowLeft, ArrowRight, Hash, MessageCircle } from 'lucide-react';
-import { BlogPost, GeneratedImage, SocialMediaPost } from '../types';
+import { ArrowLeft, ArrowRight, Check, Copy, Facebook, Hash, Instagram, Linkedin, MessageCircle, Twitter } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { socialMediaContent } from '../Services/socialMediaContent';
+import { GeneratedImage, SocialMediaPayload, SocialMediaPost } from '../types';
 
 interface SocialMediaGenerationProps {
-  post: BlogPost;
+  post: SocialMediaPayload;
   image: GeneratedImage;
   onBackToImage: () => void;
   onProceedToPreview: (socialPosts: SocialMediaPost[]) => void;
@@ -46,7 +47,7 @@ const platformConfigs = {
 
 export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
   post,
-  image,
+  // image,
   onBackToImage,
   onProceedToPreview,
 }) => {
@@ -56,35 +57,10 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(['twitter', 'linkedin']);
 
   // Generate social media posts
-  const generateSocialPosts = () => {
+  const generateSocialPosts = async () => {
     setLoading(true);
-    setTimeout(() => {
-      const posts: SocialMediaPost[] = [
-        {
-          platform: 'twitter',
-          content: `🚀 Just published: "${post.title}"\n\nKey insights that every business owner should know. Thread below 👇\n\n#Business #Growth #Strategy`,
-          hashtags: ['Business', 'Growth', 'Strategy', ...post.tags.slice(0, 2)],
-          characterCount: 0,
-        },
-        {
-          platform: 'linkedin',
-          content: `I just published a comprehensive guide on "${post.title}"\n\nIn today's competitive landscape, understanding these key principles can make the difference between success and stagnation.\n\n🔍 What you'll discover:\n• Proven strategies that work\n• Common pitfalls to avoid\n• Actionable steps you can implement today\n\nThis ${post.estimatedReadTime}-minute read could transform how you approach your business strategy.\n\nWhat's your biggest challenge in this area? Let me know in the comments!\n\n#BusinessStrategy #Growth #Leadership`,
-          hashtags: ['BusinessStrategy', 'Growth', 'Leadership', ...post.tags],
-          characterCount: 0,
-        },
-        {
-          platform: 'facebook',
-          content: `📖 New Blog Post Alert! 📖\n\n"${post.title}"\n\nI've just shared some game-changing insights that could revolutionize how you think about business strategy. Whether you're a startup founder or running an established company, these principles apply to everyone.\n\n✨ What makes this different?\n→ Real-world examples\n→ Actionable advice\n→ Step-by-step implementation guide\n\nTake ${post.estimatedReadTime} minutes to read this - I promise it's worth your time!\n\nWhat's your experience with these strategies? Share your thoughts below! 👇`,
-          hashtags: post.tags.map(tag => tag.charAt(0).toUpperCase() + tag.slice(1)),
-          characterCount: 0,
-        },
-        {
-          platform: 'instagram',
-          content: `New blog post is live! 📝✨\n\n"${post.title}"\n\nSwipe to see the key takeaways that every entrepreneur needs to know 👆\n\n💡 This ${post.estimatedReadTime}-minute read covers:\n• Strategic insights\n• Practical tips\n• Real results\n\nLink in bio to read the full post!\n\nWhat's your biggest business challenge right now? Tell me in the comments! 👇`,
-          hashtags: post.tags.map(tag => `#${tag.charAt(0).toUpperCase() + tag.slice(1)}`),
-          characterCount: 0,
-        },
-      ];
+    
+      const posts: SocialMediaPost[] = await socialMediaContent(post)
 
       // Calculate character counts
       const updatedPosts = posts.map(socialPost => ({
@@ -94,7 +70,7 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
 
       setSocialPosts(updatedPosts);
       setLoading(false);
-    }, 1500);
+    
   };
 
   useEffect(() => {

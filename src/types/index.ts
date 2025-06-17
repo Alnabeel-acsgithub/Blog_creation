@@ -5,6 +5,17 @@ export interface BusinessContentPayload {
   website_url: string;
   [key: string]: unknown; // Optional: allows additional dynamic fields
 }
+export interface SocialMediaPayload {
+  url: string;
+  title: string;
+  description: string;
+  keywords: string[];
+  tone: 'professional' | 'casual' | 'friendly' | string; // You can customize or widen it
+  target_audience: string;
+  estimated_read_time: number; // in minutes
+  business_type: string;
+  [key: string]: unknown; // optional: allows flexibility for extra fields
+}
 
 
 export interface BlogInputs {
@@ -36,6 +47,7 @@ export interface BlogPost {
   estimated_read_time: number;
   tags: string[];
 }
+
 export interface PayloadImage{
   content : string
 }
