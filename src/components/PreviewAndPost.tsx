@@ -10,8 +10,7 @@ import {
   Linkedin,
   RefreshCw,
   Share2,
-  Tag,
-  Twitter
+  Tag
 } from 'lucide-react';
 import React, { useState } from 'react';
 import { BlogPost, GeneratedImage, SocialMediaPost } from '../types';
@@ -24,7 +23,7 @@ interface PreviewAndPostProps {
 }
 
 const platformIcons = {
-  twitter: Twitter,
+  twitter: "",
   linkedin: Linkedin,
   facebook: Facebook,
   instagram: Instagram,
@@ -219,12 +218,12 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
                           </div>
                         ) : (
                           <div className="flex space-x-2">
-                            <input
+                            {/* <input
                               type="datetime-local"
                               onChange={(e) => handleSchedulePost(socialPost.platform, e.target.value)}
                               className="px-3 py-1 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            />
-                            <button
+                            /> */}
+                            {/* <button
                               onClick={() => handlePostToSocial(socialPost.platform)}
                               className={`
                                 px-4 py-2 text-sm font-medium text-white rounded-lg transition-all duration-200
@@ -232,7 +231,7 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
                               `}
                             >
                               Post Now
-                            </button>
+                            </button> */}
                           </div>
                         )}
                       </div>

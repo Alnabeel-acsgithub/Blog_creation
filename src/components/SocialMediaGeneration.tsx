@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Check, Copy, Facebook, Hash, Instagram, Linkedin, MessageCircle, Twitter } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Copy, Facebook, Hash, Instagram, Linkedin, MessageCircle } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { socialMediaContent } from '../Services/socialMediaContent';
 import { GeneratedImage, SocialMediaPayload, SocialMediaPost } from '../types';
@@ -12,7 +12,7 @@ interface SocialMediaGenerationProps {
 
 const platformConfigs = {
   twitter: {
-    icon: Twitter,
+    icon: "X",
     name: 'Twitter/X',
     color: 'bg-black',
     hoverColor: 'hover:bg-gray-800',
