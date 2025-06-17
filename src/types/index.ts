@@ -1,8 +1,25 @@
+export interface BusinessContentPayload {
+  business_type: string;
+  target_audience: string;
+  tone_of_voice: string;
+  website_url: string;
+  [key: string]: unknown; // Optional: allows additional dynamic fields
+}
+
+
 export interface BlogInputs {
   website_url: string;
   business_type: string;
   target_audience: string;
   tone_of_voice: string;
+}
+
+
+export interface BlogIdea {
+  id: string;
+  title: string;
+  description: string;
+  keywords: string[];
 }
 
 export interface BlogPayload {
@@ -13,24 +30,19 @@ export interface BlogPayload {
   website_url: string;
 }
 
-export interface BlogIdea {
-  id: string;
-  title: string;
-  description: string;
-  keywords: string[];
-}
-
 export interface BlogPost {
   title: string;
   content: string;
   estimated_read_time: number;
   tags: string[];
 }
-
+export interface PayloadImage{
+  content : string
+}
 export interface GeneratedImage {
   url: string;
-  prompt: string;
-  alt: string;
+  // prompt: string;
+  // alt: string;
 }
 
 export interface SocialMediaPost {

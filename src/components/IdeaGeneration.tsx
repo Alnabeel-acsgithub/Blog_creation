@@ -1,13 +1,10 @@
 import { ArrowRight, Check, Copy, Lightbulb, RefreshCw } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { fetchBlogIdeas } from '../Services/ContentIdeas';
-import { BlogIdea } from '../types';
+import { BlogIdea, BusinessContentPayload } from '../types';
 
 interface IdeaGenerationProps {
-  inputs: {
-    businessType: string;
-    // Add other properties as needed based on your usage
-  };
+  inputs: BusinessContentPayload
   onSelectIdea: (idea: BlogIdea) => void;
   onRegenerateIdeas: () => void;
 }

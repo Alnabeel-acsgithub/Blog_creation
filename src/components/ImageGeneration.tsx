@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Download, RefreshCw, ArrowLeft, RotateCw, Sparkles, Eye, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Download, Eye, RotateCw, Sparkles } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { blogImage } from '../Services/imageGenerate';
+
 import { BlogPost, GeneratedImage } from '../types';
 
 interface ImageGenerationProps {
@@ -20,56 +22,37 @@ export const ImageGeneration: React.FC<ImageGenerationProps> = ({
 
   // Generate image prompt based on blog post
   const generateImagePrompt = (customization?: string) => {
-    const basePrompt = `Professional blog header image for "${post.title}". Modern, clean design with vibrant colors. High quality, digital art style, business-focused`;
+    const basePrompt = `Professional blog header image for "${post.content}". Modern, clean design with vibrant colors. High quality, digital art style, business-focused`;
     return customization ? `${basePrompt}. ${customization}` : basePrompt;
   };
 
   // Mock image generation
-  const generateImage = (prompt?: string) => {
-    setLoading(true);
-    const imagePrompt = prompt || generateImagePrompt();
-    
-    setTimeout(() => {
-      // Using Pexels stock photos for demonstration
-      const stockImages = [
-        'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop',
-        'https://images.pexels.com/photos/3184295/pexels-photo-3184295.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop',
-        'https://images.pexels.com/photos/3184317/pexels-photo-3184317.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop',
-        'https://images.pexels.com/photos/3184290/pexels-photo-3184290.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop',
-        'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600&fit=crop',
-      ];
-      
-      const randomImage = stockImages[Math.floor(Math.random() * stockImages.length)];
-      
-      const generatedImage: GeneratedImage = {
-        url: randomImage,
-        prompt: imagePrompt,
-        alt: `Featured image for ${post.title}`,
-      };
-      
-      setImage(generatedImage);
-      setLoading(false);
-    }, 2000);
-  };
+  const generateImage = () => {
+  setLoading(true);
 
+  blogImage(post.content).then((imageUrl) => {
+    if (imageUrl) {
+      setImage({ url: imageUrl }); // Make sure your state supports this format
+    }
+    setLoading(false);
+  }).catch(() => setLoading(false));
+};
   useEffect(() => {
     generateImage();
   }, []);
 
   const handleRegenerateImage = () => {
-    const prompt = customPrompt ? generateImagePrompt(customPrompt) : generateImagePrompt();
-    generateImage(prompt);
+    // const prompt = customPrompt ? generateImagePrompt(customPrompt) : generateImagePrompt();
+    generateImage();
     setShowPromptEditor(false);
   };
 
   const handleDownloadImage = () => {
-    if (image) {
-      const link = document.createElement('a');
-      link.href = image.url;
-      link.download = `${post.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_featured_image.jpg`;
-      link.click();
-    }
-  };
+  const link = document.createElement("a");
+  link.href = image?.url || "";
+  link.download = `blog-image-${Date.now()}.png`;
+  link.click();
+};
 
   const handleProceedToSocial = () => {
     if (image) {
@@ -106,16 +89,16 @@ export const ImageGeneration: React.FC<ImageGenerationProps> = ({
       {/* Generated Image Display */}
       <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
         <div className="relative">
-          <img
+            <img
             src={image?.url}
-            alt={image?.alt}
+            alt="Generated Blog Image"
             className="w-full h-80 object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           <div className="absolute bottom-6 left-6 right-6 text-white">
             <h3 className="text-2xl font-bold mb-2">{post.title}</h3>
             <div className="flex items-center space-x-4 text-sm text-gray-200">
-              <span>{post.estimatedReadTime} min read</span>
+              <span>{post.estimated_read_time} min read</span>
               <span>•</span>
               <span>{post.tags.join(', ')}</span>
             </div>
@@ -181,7 +164,7 @@ export const ImageGeneration: React.FC<ImageGenerationProps> = ({
         </h4>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <div className="text-2xl font-bold text-blue-600 mb-1">{post.estimatedReadTime}</div>
+            <div className="text-2xl font-bold text-blue-600 mb-1">{post.estimated_read_time}</div>
             <div className="text-sm text-blue-700">Minutes to Read</div>
           </div>
           <div className="text-center p-4 bg-green-50 rounded-lg">

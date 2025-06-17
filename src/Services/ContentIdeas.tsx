@@ -1,6 +1,8 @@
 // api/generateBlogIdeas.js
 
-export async function fetchBlogIdeas(payload:any) {
+import { BusinessContentPayload } from "../types";
+
+export async function fetchBlogIdeas(payload:BusinessContentPayload) {
   try {
     console.log(payload,"pppppppp");
     
