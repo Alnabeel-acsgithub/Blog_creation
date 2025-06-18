@@ -10,7 +10,8 @@ import {
   Linkedin,
   RefreshCw,
   Share2,
-  Tag
+  Tag,
+  Twitter
 } from 'lucide-react';
 import React, { useState } from 'react';
 import { BlogPost, GeneratedImage, SocialMediaPost } from '../types';
@@ -23,7 +24,7 @@ interface PreviewAndPostProps {
 }
 
 const platformIcons = {
-  twitter: "",
+  twitter: Twitter,
   linkedin: Linkedin,
   facebook: Facebook,
   instagram: Instagram,
