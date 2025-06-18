@@ -24,7 +24,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ onLogin, user }) 
               <path fill="none" d="M0 0h48v48H0z"/>
             </g>
           </svg>
-          <span>Sign in with Google</span>
+          <span>Continue with Google</span>
         </button>
       )}
     </div>

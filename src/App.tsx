@@ -11,11 +11,13 @@ import { BlogInputs, BlogIdea, BlogPost, GeneratedImage, SocialMediaPost, Step }
 import LoginPage from './components/LoginPage';
 import { signInWithGoogle, signOutUser } from './Services/firebaseConfig';
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
+import LogoutModal from './components/LogoutModal';
 
 
 function App() {
   const [user, setUser] = useState<{ name?: string | null; email?: string | null } | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   // Persist login across refreshes
   useEffect(() => {
@@ -68,12 +70,18 @@ function App() {
   // Blog workflow UI (rest of your app)
   // ... (keep your existing state and handlers as before)
 
-  // Logout handler
+  // Logout modal logic
   const handleLogout = async () => {
+    setShowLogoutModal(true);
+  };
+  const handleLogoutConfirm = async () => {
     await signOutUser();
     setUser(null);
+    setShowLogoutModal(false);
   };
-
+  const handleLogoutCancel = () => {
+    setShowLogoutModal(false);
+  };
 
   const handleInputSubmit = (formInputs: BlogInputs) => {
     setInputs(formInputs);
@@ -141,6 +149,8 @@ function App() {
         >
           Logout
         </button>
+        {/* Logout Confirmation Modal */}
+        <LogoutModal open={showLogoutModal} onCancel={handleLogoutCancel} onConfirm={handleLogoutConfirm} />
       </div>
       <div className="container mx-auto px-4 py-8">
 
