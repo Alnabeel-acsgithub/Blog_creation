@@ -427,7 +427,7 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
   const [platformImages, setPlatformImages] = useState<PlatformImages>({});
   const [loading, setLoading] = useState(true);
   const [copiedPlatform, setCopiedPlatform] = useState<string>('');
-  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(['twitter', 'linkedin']);
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(['twitter', 'linkedin', 'facebook', 'instagram']);
 
   // Generate social media posts
   const generateSocialPosts = async () => {
