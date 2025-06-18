@@ -61,9 +61,9 @@ function App() {
   }
 
   // Conditional rendering for authentication
-  // if (!user) {
-  //   return <LoginPage onLogin={handleLogin} user={user} />;
-  // }
+  if (!user) {
+    return <LoginPage onLogin={handleLogin} user={user} />;
+  }
 
   // Blog workflow UI (rest of your app)
   // ... (keep your existing state and handlers as before)
