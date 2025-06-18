@@ -139,8 +139,12 @@ export const ContentGeneration: React.FC<ContentGenerationProps> = ({
   return (
     <div className="max-w-4xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Your Blog Post is Ready!</h2>
-        <p className="text-lg text-gray-600">Review your content and add compelling visuals to complete your post.</p>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          Your Blog Post is Ready!
+        </h2>
+        <p className="text-lg text-gray-600">
+          Review your content and add compelling visuals to complete your post.
+        </p>
       </div>
 
       <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
@@ -149,25 +153,21 @@ export const ContentGeneration: React.FC<ContentGenerationProps> = ({
           <div className="flex items-center space-x-6 text-blue-100">
             <div className="flex items-center">
               <Clock className="w-4 h-4 mr-2" />
-              <span className="text-sm">{post.estimated_read_time} min read</span>
+              <span className="text-sm">
+                {post.estimated_read_time} min read
+              </span>
             </div>
             <div className="flex items-center">
               <Tag className="w-4 h-4 mr-2" />
-              <span className="text-sm">{post.tags.join(', ')}</span>
+              <span className="text-sm">{post.tags.join(", ")}</span>
             </div>
           </div>
         </div>
 
         <div className="p-8">
-          <div 
-            className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900"
-            dangerouslySetInnerHTML={{ 
-              __html: post.content.replace(/\n/g, '<br>').replace(/#{1,6}\s+(.+)/g, (match, p1) => {
-                const matchResult = match.match(/^#+/);
-                const level = matchResult ? matchResult[0].length : 1;
-                return `<h${level} class="font-bold text-gray-900 mt-8 mb-4">${p1}</h${level}>`;
-              })
-            }}
+          <div
+            className="prose prose-lg max-w-none text-gray-700 prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900"
+            dangerouslySetInnerHTML={{ __html: post.content }}
           />
         </div>
       </div>
