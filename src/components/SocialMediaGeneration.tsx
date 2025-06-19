@@ -354,7 +354,7 @@ import {
 } from 'lucide-react';
 import { BlogPost, GeneratedImage, SocialMediaPayload, SocialMediaPost } from '../types';
 import { socialMediaContent } from '../Services/socialMediaContent';
-import { socialMediaImage1, socialMediaImage2 } from '../Services/generatePostImage ';
+import { socialMediaImage1, socialMediaImage2, socialMediaImage3, socialMediaImage4 } from '../Services/generatePostImage ';
 
 interface SocialMediaGenerationProps {
   post: SocialMediaPayload;
@@ -471,14 +471,14 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
       platform: "facebook",
 
     }
-    let facebookImfUrl = await socialMediaImage1(facebookUrl);
+    let facebookImfUrl = await socialMediaImage3(facebookUrl);
 
     let instagramUrl = {
       content: post.content,
       platform: "instagram",
 
     }
-    let instagramImgUrl = await socialMediaImage2(instagramUrl);
+    let instagramImgUrl = await socialMediaImage4(instagramUrl);
 
     // Using different Pexels stock photos for each platform
     const platformStockImages = {
