@@ -22,48 +22,6 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
     setIdeas(ideas);
     setLoading(false);
   }).catch(() => setLoading(false));
-    // setTimeout(() => {
-    //   const mockIdeas: BlogIdea[] = [
-    //     {
-    //       id: '1',
-    //       title: `10 Ways ${inputs.businessType} Companies Can Boost Customer Engagement`,
-    //       description: 'Explore proven strategies to connect with your audience and build lasting relationships.',
-    //       keywords: ['engagement', 'customers', 'retention'],
-    //     },
-    //     {
-    //       id: '2',
-    //       title: `The Future of ${inputs.businessType}: Trends to Watch in 2024`,
-    //       description: 'Stay ahead of the curve with insights into emerging trends and technologies.',
-    //       keywords: ['trends', 'future', 'innovation'],
-    //     },
-    //     {
-    //       id: '3',
-    //       title: 'Common Mistakes That Kill Your Conversion Rate',
-    //       description: 'Identify and fix the critical errors that are costing you customers.',
-    //       keywords: ['conversion', 'mistakes', 'optimization'],
-    //     },
-    //     {
-    //       id: '4',
-    //       title: `How to Choose the Right ${inputs.businessType} Solution for Your Needs`,
-    //       description: 'A comprehensive guide to making informed decisions in a crowded market.',
-    //       keywords: ['guide', 'selection', 'decision'],
-    //     },
-    //     {
-    //       id: '5',
-    //       title: 'Building Trust in the Digital Age: A Step-by-Step Guide',
-    //       description: 'Learn how to establish credibility and trust with your online audience.',
-    //       keywords: ['trust', 'credibility', 'digital'],
-    //     },
-    //     {
-    //       id: '6',
-    //       title: `ROI Calculator: Is Your ${inputs.businessType} Investment Worth It?`,
-    //       description: 'Tools and methods to measure and maximize your return on investment.',
-    //       keywords: ['ROI', 'investment', 'calculator'],
-    //     },
-    //   ];
-    //   setIdeas(mockIdeas);
-    //   setLoading(false);
-    // }, 1500);
   };
 
   useEffect(() => {
@@ -122,38 +80,47 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
           <div
             key={idea.id}
             className={`
-              bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer group
+              bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer group relative
+              flex flex-col h-full
               ${selectedId === idea.id ? 'ring-4 ring-blue-500 transform scale-105' : 'hover:transform hover:-translate-y-1'}
             `}
             onClick={() => handleSelect(idea)}
           >
-            <div className="p-6">
-              {/* <div className="flex items-start justify-between mb-4">
-                <Lightbulb className="w-6 h-6 text-yellow-500 mt-1 flex-shrink-0" />
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleCopy(idea.title, idea.id);
-                  }}
-                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-                >
-                  {copiedId === idea.id ? (
-                    <Check className="w-4 h-4 text-green-500" />
-                  ) : (
-                    <Copy className="w-4 h-4" />
-                  )}
-                </button>
-              </div> */}
-              
-              <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-200">
+            {/* Header with Icon and Copy Button */}
+            <div className="flex items-center justify-between p-6 pb-4 flex-shrink-0">
+              {/* <div className="flex items-center">
+                <div className="p-2 bg-yellow-100 rounded-lg">
+                  <Lightbulb className="w-5 h-5 text-yellow-600" />
+                </div>
+              </div>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCopy(idea.title, idea.id);
+                }}
+                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                title="Copy title"
+              >
+                {copiedId === idea.id ? (
+                  <Check className="w-4 h-4 text-green-500" />
+                ) : (
+                  <Copy className="w-4 h-4" />
+                )}
+              </button> */}
+            </div>
+
+            {/* Content - Flexible area */}
+            <div className="px-6 flex-grow flex flex-col">
+              <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-200 leading-tight">
                 {idea.title}
               </h3>
-              
-              <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+
+              <p className="text-gray-600 mb-4 text-sm leading-relaxed flex-grow">
                 {idea.description}
               </p>
-              
-              <div className="flex flex-wrap gap-2 mb-4">
+
+              {/* Keywords */}
+              <div className="flex flex-wrap gap-2 mb-6">
                 {idea.keywords.map((keyword) => (
                   <span
                     key={keyword}
@@ -163,12 +130,24 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
                   </span>
                 ))}
               </div>
-              
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-500">Click to select</span>
-                <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-blue-500 transition-colors duration-200" />
+            </div>
+
+            {/* Footer with Call to Action - Fixed at bottom */}
+            <div className="px-6 pb-6 flex-shrink-0">
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                <span className="text-sm text-gray-500 font-medium">Click to select</span>
+                <div className="flex items-center text-blue-500 group-hover:text-blue-600 transition-colors duration-200">
+                  <ArrowRight className="w-4 h-4" />
+                </div>
               </div>
             </div>
+
+            {/* Selection Indicator */}
+            {selectedId === idea.id && (
+              <div className="absolute top-4 right-4 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center z-10">
+                <Check className="w-4 h-4 text-white" />
+              </div>
+            )}
           </div>
         ))}
       </div>
