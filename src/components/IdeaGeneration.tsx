@@ -128,7 +128,7 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
             onClick={() => handleSelect(idea)}
           >
             <div className="p-6">
-              <div className="flex items-start justify-between mb-4">
+              {/* <div className="flex items-start justify-between mb-4">
                 <Lightbulb className="w-6 h-6 text-yellow-500 mt-1 flex-shrink-0" />
                 <button
                   onClick={(e) => {
@@ -143,7 +143,7 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
                     <Copy className="w-4 h-4" />
                   )}
                 </button>
-              </div>
+              </div> */}
               
               <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-200">
                 {idea.title}

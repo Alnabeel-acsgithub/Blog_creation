@@ -352,7 +352,7 @@ import {
   Loader2,
   X
 } from 'lucide-react';
-import { BlogPost, GeneratedImage, SocialMediaPayload, SocialMediaPost } from '../types';
+import { GeneratedImage, SocialMediaPayload, SocialMediaPost } from '../types';
 import { socialMediaContent } from '../Services/socialMediaContent';
 import { socialMediaImage1, socialMediaImage2, socialMediaImage3, socialMediaImage4 } from '../Services/generatePostImage ';
 
