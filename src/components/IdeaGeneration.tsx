@@ -282,7 +282,8 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
           <h3 className="text-lg font-bold text-gray-900 mb-4">Add Your Custom Blog Idea</h3>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+              {/* <label className="block text-sm font-medium text-gray-700 mb-1">Title</label> */}
+              Title <span className="text-red-500">*</span>
               <input
                 type="text"
                 name="title"
@@ -293,7 +294,8 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+              {/* <label className="block text-sm font-medium text-gray-700 mb-1">Description</label> */}
+              Description <span className="text-red-500">*</span>
               <textarea
                 name="description"
                 value={customIdea.description}
@@ -304,7 +306,8 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Keywords (comma-separated)</label>
+              {/* <label className="block text-sm font-medium text-gray-700 mb-1">Keywords (comma-separated)</label> */}
+              Keywords (comma-separated) <span className="text-red-500">*</span>
               <input
                 type="text"
                 name="keywords"
