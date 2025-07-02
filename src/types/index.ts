@@ -62,6 +62,7 @@ export interface SocialMediaPost {
   content: string;
   hashtags: string[];
   characterCount: number;
+  imageUrl?: string;
 }
 
 export type Step = 'input' | 'ideas' | 'content' | 'image' | 'social' | 'preview';

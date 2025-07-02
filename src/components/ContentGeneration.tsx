@@ -167,7 +167,7 @@ export const ContentGeneration: React.FC<ContentGenerationProps> = ({
         <div className="p-8">
           <div
             className="prose prose-lg max-w-none text-gray-700 prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: post.content || "<p>No content available.</p>" }}
           />
         </div>
       </div>

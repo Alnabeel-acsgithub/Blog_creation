@@ -447,61 +447,35 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
   };
 
   // Generate platform-specific image
+
   const generatePlatformImage = async (platform: string) => {
     setPlatformImages(prev => ({
       ...prev,
-      [platform]: { ...prev[platform], loading: true } as PlatformImage
+      [platform]: { ...prev[platform], loading: true } as PlatformImage,
     }));
-    let urltwt = {
-      content: post.content,
-      platform: "twitter",
 
+    let imageUrl;
+
+    // Generate image URL for the selected platform
+    if (platform === 'twitter') {
+      const url = { content: post.content, platform: "twitter" };
+      imageUrl = await socialMediaImage1(url);
+    } else if (platform === 'linkedin') {
+      const url = { content: post.content, platform: "linkedin" };
+      imageUrl = await socialMediaImage2(url);
+    } else if (platform === 'facebook') {
+      const url = { content: post.content, platform: "facebook" };
+      imageUrl = await socialMediaImage3(url);
+    } else if (platform === 'instagram') {
+      const url = { content: post.content, platform: "instagram" };
+      imageUrl = await socialMediaImage4(url);
     }
-    let twitimgurl = await socialMediaImage1(urltwt);
 
-    let linkedinUrl = {
-      content: post.content,
-      platform: "linkedin",
-
-    }
-    let linkedinmgurl = await socialMediaImage2(linkedinUrl);
-
-    let facebookUrl = {
-      content: post.content,
-      platform: "facebook",
-
-    }
-    let facebookImfUrl = await socialMediaImage3(facebookUrl);
-
-    let instagramUrl = {
-      content: post.content,
-      platform: "instagram",
-
-    }
-    let instagramImgUrl = await socialMediaImage4(instagramUrl);
-
-    // Using different Pexels stock photos for each platform
-    const platformStockImages = {
-      twitter: [
-        twitimgurl
-      ],
-      linkedin: [
-        linkedinmgurl
-      ],
-      facebook: [
-        facebookImfUrl
-      ],
-      instagram: [
-        instagramImgUrl
-      ],
-    };
-
-    const images = platformStockImages[platform] || platformStockImages.twitter;
-    const randomImage = images[Math.floor(Math.random() * images.length)];
+    // Ensure imageUrl is always a string (fallback to an empty string if it's null or undefined)
     const config = platformConfigs[platform];
 
     const generatedImage: PlatformImage = {
-      url: randomImage,
+      url: imageUrl ?? '',  // Fallback to an empty string if imageUrl is null or undefined
       prompt: `${config.imagePrompt} for "${post.title}". ${config.imageSize} dimensions.`,
       alt: `${config.name} image for ${post.title}`,
       loading: false,
@@ -509,10 +483,75 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
 
     setPlatformImages(prev => ({
       ...prev,
-      [platform]: generatedImage
+      [platform]: generatedImage,
     }));
-
   };
+  // const generatePlatformImage = async (platform: string) => {
+    // setPlatformImages(prev => ({
+    //   ...prev,
+    //   [platform]: { ...prev[platform], loading: true } as PlatformImage
+    // }));
+    // let urltwt = {
+    //   content: post.content,
+    //   platform: "twitter",
+
+    // }
+    // let twitimgurl = await socialMediaImage1(urltwt);
+
+    // let linkedinUrl = {
+    //   content: post.content,
+    //   platform: "linkedin",
+
+    // }
+    // let linkedinmgurl = await socialMediaImage2(linkedinUrl);
+
+    // let facebookUrl = {
+    //   content: post.content,
+    //   platform: "facebook",
+
+    // }
+    // let facebookImfUrl = await socialMediaImage3(facebookUrl);
+
+    // let instagramUrl = {
+    //   content: post.content,
+    //   platform: "instagram",
+
+    // }
+    // let instagramImgUrl = await socialMediaImage4(instagramUrl);
+
+    // // Using different Pexels stock photos for each platform
+    // const platformStockImages = {
+    //   twitter: [
+    //     twitimgurl
+    //   ],
+    //   linkedin: [
+    //     linkedinmgurl
+    //   ],
+    //   facebook: [
+    //     facebookImfUrl
+    //   ],
+    //   instagram: [
+    //     instagramImgUrl
+    //   ],
+    // };
+
+    // const images = platformStockImages[platform] || platformStockImages.twitter;
+    // const randomImage = images[Math.floor(Math.random() * images.length)];
+    // const config = platformConfigs[platform];
+
+    // const generatedImage: PlatformImage = {
+    //   url: randomImage,
+    //   prompt: `${config.imagePrompt} for "${post.title}". ${config.imageSize} dimensions.`,
+    //   alt: `${config.name} image for ${post.title}`,
+    //   loading: false,
+    // };
+
+    // setPlatformImages(prev => ({
+    //   ...prev,
+    //   [platform]: generatedImage
+    // }));
+
+  // };
 
   // Auto-generate images for selected platforms
   useEffect(() => {
@@ -573,15 +612,14 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
   };
 
   const handleProceed = () => {
-    const selectedSocialPosts = socialPosts.filter(post =>
-      selectedPlatforms.includes(post.platform)
-    );
-    const selectedImages = Object.fromEntries(
-      Object.entries(platformImages).filter(([platform]) =>
-        selectedPlatforms.includes(platform)
-      )
-    );
-    onProceedToPreview(selectedSocialPosts, selectedImages);
+    const selectedSocialPosts = socialPosts
+      .filter(post => selectedPlatforms.includes(post.platform))
+      .map(post => ({
+        ...post,
+        imageUrl: platformImages[post.platform]?.url || '', // ✅ Inject image
+      }));
+
+    onProceedToPreview(selectedSocialPosts, platformImages); // Optional if platformImages is no longer needed separately
   };
 
   if (loading) {

@@ -3,7 +3,7 @@ import {
   CheckCircle,
   Clock,
   Download,
-  Eye,
+  Eye,X,
   Facebook,
   Globe,
   Instagram,
@@ -24,7 +24,7 @@ interface PreviewAndPostProps {
 }
 
 const platformIcons = {
-  twitter: Twitter,
+  twitter: X,
   linkedin: Linkedin,
   facebook: Facebook,
   instagram: Instagram,
@@ -191,6 +191,7 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
               {socialPosts.map((socialPost) => {
                 const Icon = platformIcons[socialPost.platform];
                 const isPosted = postedPlatforms.includes(socialPost.platform);
+                const imageUrl = socialPost.imageUrl;
                 const isScheduled = scheduledPosts[socialPost.platform];
                 
                 return (
@@ -237,8 +238,71 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
                         )}
                       </div>
                     </div>
+
+                    <div className="bg-white rounded-lg p-4 border border-gray-200 space-y-4">
+                      {/* Post Text */}
+                      <p className="text-gray-800 whitespace-pre-wrap">{socialPost.content}</p>
+
+                      {/* Hashtags */}
+                      <div className="flex flex-wrap gap-2">
+                        {socialPost.hashtags.slice(0, 8).map((tag, index) => (
+                          <span
+                            key={index}
+                            className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full"
+                          >
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Image Preview + Download */}
+
+                      {imageUrl && (
+                        <div className="relative">
+                          <img
+                            src={imageUrl}
+                            alt={`${socialPost.platform} image`}
+                            className="w-full rounded-lg border border-gray-200"
+                          />
+                          <button
+                            onClick={() => {
+                              const link = document.createElement('a');
+                              link.href = imageUrl;
+                              link.download = `${post.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_${socialPost.platform}_image.jpg`;
+                              link.click();
+                            }}
+                            className="absolute top-2 right-2 bg-white text-gray-700 px-3 py-1 text-sm rounded-lg shadow hover:bg-gray-100 transition"
+                          >
+                            <Download className="w-4 h-4 inline mr-1" />
+                            Download Image
+                          </button>
+                        </div>
+                      )}
+                    </div>
+          
+                      {/* <div className="relative">
+                        <img
+                          src={image.url}
+                          alt={`Social preview for ${socialPost.platform}`}
+                          className="w-full rounded-lg border border-gray-200"
+                        />
+                        <button
+                          onClick={() => {
+                            const link = document.createElement('a');
+                            link.href = image.url;
+                            link.download = `${post.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_${socialPost.platform}_image.jpg`;
+                            link.click();
+                          }}
+                          className="absolute top-2 right-2 bg-white text-gray-700 px-3 py-1 text-sm rounded-lg shadow hover:bg-gray-100 transition"
+                        >
+                          <Download className="w-4 h-4 inline mr-1" />
+                          Download Image
+                        </button>
+                      </div>
+                    </div> */}
+
                     
-                    <div className="bg-white rounded-lg p-4 border border-gray-200">
+                    {/* <div className="bg-white rounded-lg p-4 border border-gray-200">
                       <p className="text-gray-800 whitespace-pre-wrap">{socialPost.content}</p>
                       <div className="mt-3 flex flex-wrap gap-2">
                         {socialPost.hashtags.slice(0, 8).map((tag, index) => (
@@ -250,7 +314,7 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
                           </span>
                         ))}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 );
               })}
