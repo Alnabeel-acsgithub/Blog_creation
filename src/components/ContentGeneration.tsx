@@ -48,7 +48,7 @@ export const ContentGeneration: React.FC<ContentGenerationProps> = ({
             <div className="h-32 bg-gray-200 rounded mb-4"></div>
           </div>
           <h3 className="text-2xl font-bold text-gray-900 mb-4">Crafting your post...</h3>
-          <p className="text-gray-600">Creating engaging, SEO-optimized content tailored to your audience and brand voice.</p>
+          <p className="text-gray-600">Creating engaging, SEO-optimised content tailored to your audience and brand voice.</p>
         </div>
       </div>
     );

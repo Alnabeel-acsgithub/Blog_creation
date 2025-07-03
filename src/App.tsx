@@ -162,7 +162,7 @@ function App() {
             Multimodal content generation system
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Transform your ideas into engaging, SEO-optimized posts with AI-powered content generation, stunning visuals, and social media integration.
+            Transform your ideas into engaging, SEO-optimised posts with AI-powered content generation, stunning visuals, and social media integration.
           </p>
         </div>
 
