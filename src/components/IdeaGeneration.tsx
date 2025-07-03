@@ -498,7 +498,7 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
 
       {showCustomForm && (
         <div className="mb-6 bg-white rounded-2xl shadow-lg p-6">
-          <h3 className="text-lg font-bold text-gray-900 mb-4">Add your custom idea</h3>
+          <h3 className="text-lg font-bold text-gray-900 mb-4">Add your idea</h3>
           <div className="space-y-4">
             <div>
               Title <span className="text-red-500">*</span>
