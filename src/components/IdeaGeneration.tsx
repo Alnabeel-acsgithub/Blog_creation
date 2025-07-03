@@ -449,8 +449,8 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
     return (
       <div className="max-w-4xl mx-auto text-center">
         <div className="bg-white rounded-2xl shadow-xl p-12">
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">Generating Blog Ideas...</h3>
-          <p className="text-gray-600 mb-8">Brainstorming innovative and compelling blog post ideas tailored to your business.</p>
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">Generating content ideas...</h3>
+          <p className="text-gray-600 mb-8">Brainstorming innovative and compelling content ideas tailored to your business.</p>
           <div className="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700">
             <div
               className="bg-blue-600 h-4 rounded-full transition-all duration-300 ease-out"
@@ -473,7 +473,7 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
   return (
     <div className="max-w-6xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Choose your blog topic</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">Choose your content topic</h2>
         <p className="text-lg text-gray-600">Select an idea that resonates with your audience, or regenerate for fresh options.</p>
       </div>
 
@@ -658,7 +658,7 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
             </button>
 
             {/* Modal Title */}
-            <h3 className="text-2xl font-semibold text-gray-900 mb-6">Add comments to modify</h3>
+            <h3 className="text-2xl font-semibold text-gray-900 mb-6">Add content revision input</h3>
 
             {/* Modal Content */}
             <div className="mb-6">
