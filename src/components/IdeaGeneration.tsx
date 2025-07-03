@@ -320,7 +320,7 @@
 
 
 import { ArrowRight, Check, Copy, Lightbulb, RefreshCw, Plus, MessageSquare, X } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { fetchBlogIdeas } from '../Services/ContentIdeas';
 import { BlogIdea, BusinessContentPayload } from '../types';
 import { Toast } from './Toast';
@@ -357,10 +357,14 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
       .catch(() => setLoading(false));
   };
 
-  useEffect(() => {
-    generateIdeas();
-  }, []);
+  const hasGeneratedIdeas = useRef(false);
 
+  useEffect(() => {
+    if (!hasGeneratedIdeas.current) {
+      hasGeneratedIdeas.current = true;
+      generateIdeas();
+    }
+  }, []);
   const handleCopy = (title: string, id: string) => {
     navigator.clipboard.writeText(title);
     setCopiedId(id);

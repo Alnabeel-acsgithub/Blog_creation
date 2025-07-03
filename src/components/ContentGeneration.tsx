@@ -1,5 +1,5 @@
 import { ArrowRight, Clock, RefreshCw, Tag } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { fetchBlog } from '../Services/Content';
 import { BlogInputs, BlogPayload, BlogPost } from '../types';
 
@@ -26,96 +26,16 @@ export const ContentGeneration: React.FC<ContentGenerationProps> = ({
         setPost(ideas);
         setLoading(false);
       }).catch(() => setLoading(false));
-//     setTimeout(() => {
-//       const mockPost: BlogPost = {
-//         title: selectedIdea.title,
-//         content: `
-// # ${selectedIdea.title}
-
-// ## Introduction
-
-// In today's competitive ${inputs.businessType.toLowerCase()} landscape, understanding your audience and delivering value through strategic content is more important than ever. This comprehensive guide will walk you through actionable strategies that can transform your approach and drive meaningful results.
-
-// ## The Current Landscape
-
-// The ${inputs.businessType.toLowerCase()} industry has evolved significantly over the past few years. With changing consumer behaviors and technological advances, businesses need to adapt their strategies to stay relevant and competitive.
-
-// ### Key Challenges
-
-// - **Market Saturation**: Standing out in a crowded marketplace
-// - **Customer Expectations**: Meeting increasingly sophisticated demands
-// - **Technology Integration**: Leveraging new tools and platforms effectively
-// - **ROI Measurement**: Proving value and return on investment
-
-// ## Strategic Approach
-
-// ### 1. Understanding Your Audience
-
-// Your ${inputs.targetAudience.toLowerCase()} audience has specific needs and preferences. By deeply understanding their pain points, motivations, and behaviors, you can create more targeted and effective strategies.
-
-// ### 2. Implementing Best Practices
-
-// Based on industry research and real-world applications, here are the proven methods that deliver results:
-
-// **Data-Driven Decision Making**
-// - Utilize analytics to guide strategy
-// - Test and iterate based on performance metrics
-// - Set clear KPIs and benchmarks
-
-// **Customer-Centric Approach**
-// - Prioritize user experience in all interactions
-// - Gather and act on customer feedback
-// - Personalize communications when possible
-
-// ### 3. Measuring Success
-
-// Success in ${inputs.businessType.toLowerCase()} requires consistent monitoring and optimization. Key metrics to track include:
-
-// - Engagement rates and user interactions
-// - Conversion rates and revenue impact
-// - Customer satisfaction and retention
-// - Market share and competitive positioning
-
-// ## Implementation Guide
-
-// ### Phase 1: Planning and Preparation
-// Start by conducting a thorough audit of your current situation. Identify strengths, weaknesses, and opportunities for improvement.
-
-// ### Phase 2: Execution
-// Roll out your strategy in manageable phases, allowing for testing and refinement along the way.
-
-// ### Phase 3: Optimization
-// Continuously monitor performance and make data-driven adjustments to maximize results.
-
-// ## Conclusion
-
-// Success in the ${inputs.businessType.toLowerCase()} space requires a combination of strategic thinking, tactical execution, and continuous optimization. By following the framework outlined in this guide and staying focused on delivering value to your ${inputs.targetAudience.toLowerCase()} audience, you'll be well-positioned to achieve your goals.
-
-// Remember, the key is to start with a solid foundation, implement systematically, and remain flexible as you learn what works best for your specific situation.
-
-// ## Next Steps
-
-// 1. Assess your current position and identify priority areas
-// 2. Develop a detailed implementation plan with timelines
-// 3. Begin with small tests to validate your approach
-// 4. Scale successful strategies across your organization
-// 5. Continue monitoring and optimizing for long-term success
-
-// ---
-
-// *Ready to implement these strategies? Start by identifying one area where you can make an immediate impact and build momentum from there.*
-//         `,
-//         estimatedReadTime: 8,
-//         tags: ['strategy', 'business', 'growth', inputs.businessType.toLowerCase()],
-//       };
-//       setPost(mockPost);
-//       setLoading(false);
-//     }, 2000);
   };
 
+  const hasGenerated = useRef(false);
+
   useEffect(() => {
-    generatePost();
-  },[selectedIdea]);
+    if (!hasGenerated.current) {
+      hasGenerated.current = true;
+      generatePost();
+    }
+  }, [selectedIdea]);
 
   if (loading) {
     return (
