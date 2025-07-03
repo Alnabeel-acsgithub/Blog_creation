@@ -344,17 +344,36 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
     keywords: '',
   });
   const [toast, setToast] = useState<{ message: string; isVisible: boolean }>({ message: '', isVisible: false });
+  const [progress, setProgress] = useState(0); // New state for progress
   const [showCommentModal, setShowCommentModal] = useState<string | null>(null); // Track modal for specific idea
 
   // Mock blog idea generation
   const generateIdeas = () => {
     setLoading(true);
+    setProgress(0); // Reset progress on new generation
+
+    const interval = setInterval(() => {
+      setProgress((prevProgress) => {
+        if (prevProgress >= 90) {
+          clearInterval(interval);
+          return prevProgress;
+        }
+        return prevProgress + 10; // Simulate progress
+      });
+    }, 300);
+
     fetchBlogIdeas(inputs)
       .then((ideas) => {
+        clearInterval(interval); // Stop simulation on completion
         setIdeas(ideas);
+        setProgress(100); // Ensure progress is 100% on completion
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        clearInterval(interval); // Stop simulation on error
+        setProgress(0); // Reset progress on error
+        setLoading(false);
+      });
   };
 
   const hasGeneratedIdeas = useRef(false);
@@ -365,6 +384,7 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
       generateIdeas();
     }
   }, []);
+
   const handleCopy = (title: string, id: string) => {
     navigator.clipboard.writeText(title);
     setCopiedId(id);
@@ -429,9 +449,22 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
     return (
       <div className="max-w-4xl mx-auto text-center">
         <div className="bg-white rounded-2xl shadow-xl p-12">
-          <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent mx-auto mb-6"></div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">Generating Creative Ideas...</h3>
-          <p className="text-gray-600">Analyzing your business context and target audience to create compelling blog topics.</p>
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">Generating Blog Ideas...</h3>
+          <p className="text-gray-600 mb-8">Brainstorming innovative and compelling blog post ideas tailored to your business.</p>
+          <div className="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700">
+            <div
+              className="bg-blue-600 h-4 rounded-full transition-all duration-300 ease-out"
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+          <div className="text-gray-500 text-sm mt-2">
+            {progress === 0 && 'Starting'}
+            {progress > 0 && progress <= 25 && 'Brainstorming ideas'}
+            {progress > 25 && progress <= 50 && 'Refining concepts'}
+            {progress > 50 && progress <= 75 && 'Finalising ideas'}
+            {progress > 75 && progress < 100 && 'Almost there!'}
+            {progress === 100 && 'Ideas created'}
+          </div>
         </div>
       </div>
     );

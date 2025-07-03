@@ -22,7 +22,7 @@
 
 //   // Generate image prompt based on blog post
 //   const generateImagePrompt = (customization?: string) => {
-//     const basePrompt = `Professional blog header image for "${post.content}". Modern, clean design with vibrant colors. High quality, digital art style, business-focused`;
+//     const basePrompt = `Professional blog header image for "${post.content}". Modern, clean design with vibrant colours. High quality, digital art style, business-focused`;
 //     return customization ? `${basePrompt}. ${customization}` : basePrompt;
 //   };
 
@@ -83,7 +83,7 @@
 //     <div className="max-w-5xl mx-auto">
 //       <div className="text-center mb-8">
 //         <h2 className="text-3xl font-bold text-gray-900 mb-4">Your Featured Image is Ready!</h2>
-//         <p className="text-lg text-gray-600">Perfect visual to complement your blog post. Customize or proceed to create social media content.</p>
+//         <p className="text-lg text-gray-600">Perfect visual to complement your blog post. Customise or proceed to create social media content.</p>
 //       </div>
 
 //       {/* Generated Image Display */}
@@ -104,7 +104,7 @@
 //             </div>
 //           </div>
 //         </div>
-        
+
 //         <div className="p-6">
 //           <div className="flex items-center justify-between mb-4">
 //             <h4 className="text-lg font-semibold text-gray-900">Featured Image</h4>
@@ -122,13 +122,13 @@
 //           {showPromptEditor && (
 //             <div className="mb-6 p-4 bg-gray-50 rounded-lg">
 //               <label className="block text-sm font-medium text-gray-700 mb-2">
-//                 Customize Image Prompt
+//                 Customise Image Prompt
 //               </label>
 //               <textarea
 //                 value={customPrompt}
 //                 onChange={(e) => setCustomPrompt(e.target.value)}
 //                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm h-20 resize-none"
-//                 placeholder="Add specific details: colors, style, objects, mood..."
+//                 placeholder="Add specific details: colours, style, objects, mood..."
 //               />
 //               <p className="text-xs text-gray-500 mt-1">
 //                 Current prompt: {generateImagePrompt(customPrompt)}
@@ -204,7 +204,7 @@ import { ArrowLeft, ArrowRight, Download, Eye, RotateCw, Sparkles } from 'lucide
 import React, { useEffect, useState, useRef } from 'react';
 import { blogImage } from '../Services/imageGenerate';
 import { BlogPost, GeneratedImage } from '../types';
-import { Toast } from './Toast'; 
+import { Toast } from './Toast';
 
 interface ImageGenerationProps {
   post: BlogPost;
@@ -223,33 +223,42 @@ export const ImageGeneration: React.FC<ImageGenerationProps> = ({
   const [showPromptEditor, setShowPromptEditor] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const [progress, setProgress] = useState(0); // New state for progress
 
   // Generate image prompt based on blog post
   const generateImagePrompt = (customization?: string) => {
-    const basePrompt = `Professional blog header image for "${post.content}". Modern, clean design with vibrant colors. High quality, digital art style, business-focused`;
+    const basePrompt = `Professional blog header image for "${post.content}". Modern, clean design with vibrant colours. High quality, digital art style, business-focused`;
     return customization ? `${basePrompt}. ${customization}` : basePrompt;
   };
 
   // Mock image generation
   const generateImage = () => {
     setLoading(true);
-    blogImage(post.content)
-      .then((imageUrl) => {
-        if (imageUrl) {
-          setImage({ url: imageUrl });
-        } else {
-          setToastMessage('Failed to generate image. Please try again.');
-          setToastVisible(true);
+    setProgress(0); // Reset progress on new generation
+
+    const interval = setInterval(() => {
+      setProgress((prevProgress) => {
+        if (prevProgress >= 90) {
+          clearInterval(interval);
+          return prevProgress;
         }
-        setLoading(false);
-      })
-      .catch(() => {
-        setToastMessage('Something went wrong while generating the image.');
-        setToastVisible(true);
-        setLoading(false);
+        return prevProgress + 10; // Simulate progress
       });
+    }, 300);
+
+    blogImage(post.content).then((imageUrl) => {
+      clearInterval(interval); // Stop simulation on completion
+      if (imageUrl) {
+        setImage({ url: imageUrl });
+      }
+      setProgress(100); // Ensure progress is 100% on completion
+      setLoading(false);
+    }).catch(() => {
+      clearInterval(interval); // Stop simulation on error
+      setProgress(0); // Reset progress on error
+      setLoading(false);
+    });
   };
-  
 
   const hasCalled = useRef(false);
 
@@ -282,15 +291,21 @@ export const ImageGeneration: React.FC<ImageGenerationProps> = ({
     return (
       <div className="max-w-4xl mx-auto text-center">
         <div className="bg-white rounded-2xl shadow-xl p-12">
-          <div className="animate-pulse">
-            <div className="h-64 bg-gray-200 rounded-lg mb-6"></div>
-            <div className="h-4 bg-gray-200 rounded w-1/2 mx-auto mb-4"></div>
-            <div className="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">Creating Your Featured Image...</h3>
+          <p className="text-gray-600 mb-8">Generating a stunning visual that perfectly complements your blog post content.</p>
+          <div className="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700">
+            <div
+              className="bg-blue-600 h-4 rounded-full transition-all duration-300 ease-out"
+              style={{ width: `${progress}%` }}
+            ></div>
           </div>
-          <div className="mt-8">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-500 border-t-transparent mx-auto mb-4"></div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Creating Your Featured Image...</h3>
-            <p className="text-gray-600">Generating a stunning visual that perfectly complements your post content.</p>
+          <div className="text-gray-500 text-sm mt-2">
+            {progress === 0 && 'Initialising'}
+            {progress > 0 && progress <= 25 && 'Designing Layout'}
+            {progress > 25 && progress <= 50 && 'Rendering Elements'}
+            {progress > 50 && progress <= 75 && 'Applying Effects'}
+            {progress > 75 && progress < 100 && 'Optimising Image'}
+            {progress === 100 && 'Created'}
           </div>
         </div>
       </div>
@@ -301,7 +316,7 @@ export const ImageGeneration: React.FC<ImageGenerationProps> = ({
     <div className="max-w-5xl mx-auto">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Your featured image is ready!</h2>
-        <p className="text-lg text-gray-600">Perfect visual to complement your post. Customise or proceed to create social media content.</p>
+        <p className="text-lg text-gray-600">Perfect visual to complement your blog post. Customise or proceed to create social media content.</p>
       </div>
 
       {/* Generated Image Display */}
@@ -342,13 +357,13 @@ export const ImageGeneration: React.FC<ImageGenerationProps> = ({
           {showPromptEditor && (
             <div className="mb-6 p-4 bg-gray-50 rounded-lg">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Customize Image Prompt
+                Customise Image Prompt
               </label>
               <textarea
                 value={customPrompt}
                 onChange={(e) => setCustomPrompt(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm h-20 resize-none"
-                placeholder="Add specific details: colors, style, objects, mood..."
+                placeholder="Add specific details: colours, style, objects, mood..."
               />
               <p className="text-xs text-gray-500 mt-1">
                 Current prompt: {generateImagePrompt(customPrompt)}
