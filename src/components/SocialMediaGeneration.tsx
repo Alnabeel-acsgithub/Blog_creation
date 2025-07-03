@@ -334,7 +334,7 @@
 //   );
 // };
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Twitter,
   Linkedin,
@@ -375,16 +375,6 @@ interface PlatformImages {
 }
 
 const platformConfigs = {
-  twitter: {
-    icon: X,
-    name: 'Twitter/X',
-    color: 'bg-black',
-    hoverColor: 'hover:bg-gray-800',
-    maxLength: 280,
-    bgColor: 'bg-gray-50',
-    imageSize: '1200x675',
-    imagePrompt: 'Twitter header image, modern minimalist design, professional business theme',
-  },
   linkedin: {
     icon: Linkedin,
     name: 'LinkedIn',
@@ -394,6 +384,16 @@ const platformConfigs = {
     bgColor: 'bg-blue-50',
     imageSize: '1200x627',
     imagePrompt: 'LinkedIn professional post image, corporate style, business-focused design',
+  },
+  twitter: {
+    icon: X,
+    name: 'Twitter/X',
+    color: 'bg-black',
+    hoverColor: 'hover:bg-gray-800',
+    maxLength: 280,
+    bgColor: 'bg-gray-50',
+    imageSize: '1200x675',
+    imagePrompt: 'Twitter header image, modern minimalist design, professional business theme',
   },
   facebook: {
     icon: Facebook,
@@ -427,7 +427,8 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
   const [platformImages, setPlatformImages] = useState<PlatformImages>({});
   const [loading, setLoading] = useState(true);
   const [copiedPlatform, setCopiedPlatform] = useState<string>('');
-  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(['twitter', 'linkedin',]);
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(['linkedin', 'twitter',]);
+  const generatedPlatforms = useRef<Set<string>>(new Set());
 
   // Generate social media posts
   const generateSocialPosts = async () => {
@@ -445,6 +446,8 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
     setLoading(false);
 
   };
+
+  const platformOrder = ['linkedin', 'twitter', 'facebook', 'instagram'];
 
   // Generate platform-specific image
 
@@ -486,86 +489,27 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
       [platform]: generatedImage,
     }));
   };
-  // const generatePlatformImage = async (platform: string) => {
-    // setPlatformImages(prev => ({
-    //   ...prev,
-    //   [platform]: { ...prev[platform], loading: true } as PlatformImage
-    // }));
-    // let urltwt = {
-    //   content: post.content,
-    //   platform: "twitter",
-
-    // }
-    // let twitimgurl = await socialMediaImage1(urltwt);
-
-    // let linkedinUrl = {
-    //   content: post.content,
-    //   platform: "linkedin",
-
-    // }
-    // let linkedinmgurl = await socialMediaImage2(linkedinUrl);
-
-    // let facebookUrl = {
-    //   content: post.content,
-    //   platform: "facebook",
-
-    // }
-    // let facebookImfUrl = await socialMediaImage3(facebookUrl);
-
-    // let instagramUrl = {
-    //   content: post.content,
-    //   platform: "instagram",
-
-    // }
-    // let instagramImgUrl = await socialMediaImage4(instagramUrl);
-
-    // // Using different Pexels stock photos for each platform
-    // const platformStockImages = {
-    //   twitter: [
-    //     twitimgurl
-    //   ],
-    //   linkedin: [
-    //     linkedinmgurl
-    //   ],
-    //   facebook: [
-    //     facebookImfUrl
-    //   ],
-    //   instagram: [
-    //     instagramImgUrl
-    //   ],
-    // };
-
-    // const images = platformStockImages[platform] || platformStockImages.twitter;
-    // const randomImage = images[Math.floor(Math.random() * images.length)];
-    // const config = platformConfigs[platform];
-
-    // const generatedImage: PlatformImage = {
-    //   url: randomImage,
-    //   prompt: `${config.imagePrompt} for "${post.title}". ${config.imageSize} dimensions.`,
-    //   alt: `${config.name} image for ${post.title}`,
-    //   loading: false,
-    // };
-
-    // setPlatformImages(prev => ({
-    //   ...prev,
-    //   [platform]: generatedImage
-    // }));
-
-  // };
 
   // Auto-generate images for selected platforms
   useEffect(() => {
     if (!loading && selectedPlatforms.length > 0) {
       selectedPlatforms.forEach(platform => {
-        if (!platformImages[platform]) {
+        if (!generatedPlatforms.current.has(platform)) {
+          generatedPlatforms.current.add(platform);
           generatePlatformImage(platform);
         }
       });
     }
   }, [loading, selectedPlatforms]);
 
+
+  const hasGeneratedPosts = useRef(false);
+
   useEffect(() => {
-    generateSocialPosts();
+    if (!hasGeneratedPosts.current) {
+      hasGeneratedPosts.current = true;
+      generateSocialPosts();
+    }
   }, []);
 
   const handleCopyPost = (platform: string, content: string) => {
@@ -646,7 +590,7 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
   return (
     <div className="max-w-6xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Social Media Content Ready!</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">Social media content ready!</h2>
         <p className="text-lg text-gray-600">Customize your posts and images for each platform, then select which ones to include in your campaign.</p>
       </div>
 
@@ -657,7 +601,7 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
           Select Platforms
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {Object.entries(platformConfigs).map(([platform, config]) => {
+          { Object.entries(platformConfigs).map(([platform, config]) => {
             const Icon = config.icon;
             const isSelected = selectedPlatforms.includes(platform);
 

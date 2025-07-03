@@ -58,7 +58,7 @@ export interface GeneratedImage {
 }
 
 export interface SocialMediaPost {
-  platform: 'twitter' | 'linkedin' | 'facebook' | 'instagram';
+  platform: 'linkedin'| 'twitter'| 'facebook' | 'instagram';
   content: string;
   hashtags: string[];
   characterCount: number;

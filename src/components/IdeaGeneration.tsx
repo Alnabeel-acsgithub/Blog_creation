@@ -1,10 +1,11 @@
-// import { ArrowRight, Check, Copy, Lightbulb, RefreshCw } from 'lucide-react';
+// import { ArrowRight, Check, Copy, Lightbulb, RefreshCw, Plus, MessageSquare } from 'lucide-react';
 // import React, { useEffect, useState } from 'react';
 // import { fetchBlogIdeas } from '../Services/ContentIdeas';
 // import { BlogIdea, BusinessContentPayload } from '../types';
+// import { Toast } from './Toast';
 
 // interface IdeaGenerationProps {
-//   inputs: BusinessContentPayload
+//   inputs: BusinessContentPayload;
 //   onSelectIdea: (idea: BlogIdea) => void;
 //   onRegenerateIdeas: () => void;
 // }
@@ -14,24 +15,47 @@
 //   const [loading, setLoading] = useState(true);
 //   const [selectedId, setSelectedId] = useState<string>('');
 //   const [copiedId, setCopiedId] = useState<string>('');
+//   const [showCustomForm, setShowCustomForm] = useState(false);
+//   const [commentMap, setCommentMap] = useState<{ [id: string]: string }>({});
+//   const [customIdea, setCustomIdea] = useState({
+//     title: '',
+//     description: '',
+//     keywords: '',
+//   });
+//   const [toast, setToast] = useState<{ message: string; isVisible: boolean }>({ message: '', isVisible: false });
 
 //   // Mock blog idea generation
 //   const generateIdeas = () => {
 //     setLoading(true);
-//     fetchBlogIdeas(inputs).then((ideas) => {
-//     setIdeas(ideas);
-//     setLoading(false);
-//   }).catch(() => setLoading(false));
+//     fetchBlogIdeas(inputs)
+//       .then((ideas) => {
+//         setIdeas(ideas);
+//         setLoading(false);
+//       })
+//       .catch(() => setLoading(false));
 //   };
 
 //   useEffect(() => {
-//     generateIdeas()
+//     generateIdeas();
 //   }, []);
 
 //   const handleCopy = (title: string, id: string) => {
 //     navigator.clipboard.writeText(title);
 //     setCopiedId(id);
 //     setTimeout(() => setCopiedId(''), 2000);
+//   };
+
+//   const handleCommentChange = (id: string, value: string) => {
+//     setCommentMap(prev => ({ ...prev, [id]: value }));
+//   };
+
+//   const handleCommentSubmit = (idea: BlogIdea) => {
+//     const comment = commentMap[idea.id] || '';
+//     const ideaWithComment = { ...idea, comment }; // Send this to the next step
+//     setSelectedId(idea.id);
+//     setTimeout(() => {
+//       onSelectIdea(ideaWithComment as BlogIdea & { comment?: string }); // temporarily allow it
+//     }, 300);
 //   };
 
 //   const handleSelect = (idea: BlogIdea) => {
@@ -44,6 +68,34 @@
 //   const handleRegenerate = () => {
 //     onRegenerateIdeas();
 //     generateIdeas();
+//   };
+
+//   const handleCustomIdeaChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+//     const { name, value } = e.target;
+//     setCustomIdea((prev) => ({ ...prev, [name]: value }));
+//   };
+
+//   const handleCustomIdeaSubmit = (e: React.MouseEvent) => {
+//     e.preventDefault();
+//     if (!customIdea.title || !customIdea.description || !customIdea.keywords) {
+//       setToast({ message: 'Please fill in all fields to proceed.', isVisible: true });
+//       return;
+//     }
+
+//     const newIdea: BlogIdea = {
+//       id: `custom-${Date.now()}`,
+//       title: customIdea.title,
+//       description: customIdea.description,
+//       keywords: customIdea.keywords.split(',').map((k) => k.trim()).filter((k) => k),
+//     };
+
+//     setIdeas([...ideas, newIdea]);
+//     setCustomIdea({ title: '', description: '', keywords: '' });
+//     setShowCustomForm(false);
+//     setSelectedId(newIdea.id);
+//     setTimeout(() => {
+//       onSelectIdea(newIdea);
+//     }, 300);
 //   };
 
 //   if (loading) {
@@ -65,7 +117,7 @@
 //         <p className="text-lg text-gray-600">Select an idea that resonates with your audience, or regenerate for fresh options.</p>
 //       </div>
 
-//       <div className="mb-6 text-center">
+//       <div className="mb-6 text-center space-x-4">
 //         <button
 //           onClick={handleRegenerate}
 //           className="inline-flex items-center px-6 py-3 bg-white border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-sm hover:shadow-md"
@@ -73,7 +125,80 @@
 //           <RefreshCw className="w-5 h-5 mr-2" />
 //           Regenerate Ideas
 //         </button>
+//         {!showCustomForm && (
+//           <button
+//             onClick={() => setShowCustomForm(true)}
+//             className="inline-flex items-center px-6 py-3 bg-white border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-sm hover:shadow-md"
+//           >
+//             <Plus className="w-5 h-5 mr-2" />
+//             Add Your Own Idea
+//           </button>
+//         )}
 //       </div>
+
+//       {showCustomForm && (
+//         <div className="mb-6 bg-white rounded-2xl shadow-lg p-6">
+//           <h3 className="text-lg font-bold text-gray-900 mb-4">Add Your Custom Idea</h3>
+//           <div className="space-y-4">
+//             <div>
+//               {/* <label className="block text-sm font-medium text-gray-700 mb-1">Title</label> */}
+//               Title <span className="text-red-500">*</span>
+//               <input
+//                 type="text"
+//                 name="title"
+//                 value={customIdea.title}
+//                 onChange={handleCustomIdeaChange}
+//                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+//                 placeholder="Enter your title"
+//               />
+//             </div>
+//             <div>
+//               {/* <label className="block text-sm font-medium text-gray-700 mb-1">Description</label> */}
+//               Description <span className="text-red-500">*</span>
+//               <textarea
+//                 name="description"
+//                 value={customIdea.description}
+//                 onChange={handleCustomIdeaChange}
+//                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+//                 rows={4}
+//                 placeholder="Describe your idea"
+//               />
+//             </div>
+//             <div>
+//               {/* <label className="block text-sm font-medium text-gray-700 mb-1">Keywords (comma-separated)</label> */}
+//               Keywords (comma-separated) <span className="text-red-500">*</span>
+//               <input
+//                 type="text"
+//                 name="keywords"
+//                 value={customIdea.keywords}
+//                 onChange={handleCustomIdeaChange}
+//                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+//                 placeholder="e.g., marketing, technology, trends"
+//               />
+//             </div>
+//             <div className="flex justify-end space-x-4">
+//               <button
+//                 onClick={() => setShowCustomForm(false)}
+//                 className="px-4 py-2 text-gray-600 hover:text-gray-800"
+//               >
+//                 Cancel
+//               </button>
+//               <button
+//                 onClick={handleCustomIdeaSubmit}
+//                 className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200"
+//               >
+//                 Add and Proceed
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+
+//       <Toast
+//         message={toast.message}
+//         isVisible={toast.isVisible}
+//         onClose={() => setToast({ message: '', isVisible: false })}
+//       />
 
 //       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 //         {ideas.map((idea) => (
@@ -88,7 +213,7 @@
 //           >
 //             {/* Header with Icon and Copy Button */}
 //             <div className="flex items-center justify-between p-6 pb-4 flex-shrink-0">
-//               {/* <div className="flex items-center">
+//               <div className="flex items-center">
 //                 <div className="p-2 bg-yellow-100 rounded-lg">
 //                   <Lightbulb className="w-5 h-5 text-yellow-600" />
 //                 </div>
@@ -106,7 +231,7 @@
 //                 ) : (
 //                   <Copy className="w-4 h-4" />
 //                 )}
-//               </button> */}
+//               </button>
 //             </div>
 
 //             {/* Content - Flexible area */}
@@ -142,6 +267,44 @@
 //               </div>
 //             </div>
 
+//             {/* Comments to Modify - Optional */}
+//             <div className="px-6 pb-6">
+//               <details className="group" onClick={(e) => e.stopPropagation()}>
+//                 <summary
+//                   className="text-sm font-medium text-gray-600 cursor-pointer flex items-center space-x-2 hover:text-blue-600 transition-colors duration-200"
+//                   onClick={(e) => e.stopPropagation()}
+//                   aria-label="Add comments to modify this idea"
+//                 >
+//                   <span className="inline-flex items-center justify-center w-6 h-6 bg-yellow-100 text-yellow-600 rounded-full">
+//                     <MessageSquare className="w-4 h-4" />
+//                   </span>
+//                   <span>Content revision input (Optional)</span>
+//                 </summary>
+
+//                 <div className="mt-3 bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+//                   <textarea
+//                     onClick={(e) => e.stopPropagation()}
+//                     onChange={(e) => handleCommentChange(idea.id, e.target.value)}
+//                     value={commentMap[idea.id] || ''}
+//                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-700 bg-white"
+//                     placeholder="Add your comments here..."
+//                     rows={3}
+//                   />
+//                   <div className="flex justify-end mt-3">
+//                     <button
+//                       onClick={(e) => {
+//                         e.stopPropagation();
+//                         handleCommentSubmit(idea);
+//                       }}
+//                       className="inline-flex items-center px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 transition-all duration-200 shadow-sm hover:shadow-md"
+//                     >
+//                       Submit & Proceed
+//                     </button>
+//                   </div>
+//                 </div>
+//               </details>
+//             </div>
+
 //             {/* Selection Indicator */}
 //             {selectedId === idea.id && (
 //               <div className="absolute top-4 right-4 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center z-10">
@@ -155,7 +318,8 @@
 //   );
 // };
 
-import { ArrowRight, Check, Copy, Lightbulb, RefreshCw, Plus } from 'lucide-react';
+
+import { ArrowRight, Check, Copy, Lightbulb, RefreshCw, Plus, MessageSquare, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { fetchBlogIdeas } from '../Services/ContentIdeas';
 import { BlogIdea, BusinessContentPayload } from '../types';
@@ -173,12 +337,14 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
   const [selectedId, setSelectedId] = useState<string>('');
   const [copiedId, setCopiedId] = useState<string>('');
   const [showCustomForm, setShowCustomForm] = useState(false);
+  const [commentMap, setCommentMap] = useState<{ [id: string]: string }>({});
   const [customIdea, setCustomIdea] = useState({
     title: '',
     description: '',
     keywords: '',
   });
   const [toast, setToast] = useState<{ message: string; isVisible: boolean }>({ message: '', isVisible: false });
+  const [showCommentModal, setShowCommentModal] = useState<string | null>(null); // Track modal for specific idea
 
   // Mock blog idea generation
   const generateIdeas = () => {
@@ -199,6 +365,20 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
     navigator.clipboard.writeText(title);
     setCopiedId(id);
     setTimeout(() => setCopiedId(''), 2000);
+  };
+
+  const handleCommentChange = (id: string, value: string) => {
+    setCommentMap((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleCommentSubmit = (idea: BlogIdea) => {
+    const comment = commentMap[idea.id] || '';
+    const ideaWithComment = { ...idea, comment };
+    setSelectedId(idea.id);
+    setShowCommentModal(null); // Close modal
+    setTimeout(() => {
+      onSelectIdea(ideaWithComment as BlogIdea & { comment?: string });
+    }, 300);
   };
 
   const handleSelect = (idea: BlogIdea) => {
@@ -268,21 +448,22 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
           <RefreshCw className="w-5 h-5 mr-2" />
           Regenerate Ideas
         </button>
-        <button
-          onClick={() => setShowCustomForm(true)}
-          className="inline-flex items-center px-6 py-3 bg-white border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-sm hover:shadow-md"
-        >
-          <Plus className="w-5 h-5 mr-2" />
-          Add Your Own Idea
-        </button>
+        {!showCustomForm && (
+          <button
+            onClick={() => setShowCustomForm(true)}
+            className="inline-flex items-center px-6 py-3 bg-white border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-sm hover:shadow-md"
+          >
+            <Plus className="w-5 h-5 mr-2" />
+            Add Your Own Idea
+          </button>
+        )}
       </div>
 
       {showCustomForm && (
         <div className="mb-6 bg-white rounded-2xl shadow-lg p-6">
-          <h3 className="text-lg font-bold text-gray-900 mb-4">Add Your Custom Blog Idea</h3>
+          <h3 className="text-lg font-bold text-gray-900 mb-4">Add Your Custom Idea</h3>
           <div className="space-y-4">
             <div>
-              {/* <label className="block text-sm font-medium text-gray-700 mb-1">Title</label> */}
               Title <span className="text-red-500">*</span>
               <input
                 type="text"
@@ -290,11 +471,10 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
                 value={customIdea.title}
                 onChange={handleCustomIdeaChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter your blog title"
+                placeholder="Enter your title"
               />
             </div>
             <div>
-              {/* <label className="block text-sm font-medium text-gray-700 mb-1">Description</label> */}
               Description <span className="text-red-500">*</span>
               <textarea
                 name="description"
@@ -302,11 +482,10 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
                 onChange={handleCustomIdeaChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 rows={4}
-                placeholder="Describe your blog idea"
+                placeholder="Describe your idea"
               />
             </div>
             <div>
-              {/* <label className="block text-sm font-medium text-gray-700 mb-1">Keywords (comma-separated)</label> */}
               Keywords (comma-separated) <span className="text-red-500">*</span>
               <input
                 type="text"
@@ -401,7 +580,18 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
             {/* Footer with Call to Action - Fixed at bottom */}
             <div className="px-6 pb-6 flex-shrink-0">
               <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                <span className="text-sm text-gray-500 font-medium">Click to select</span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowCommentModal(idea.id); // Open modal for this idea
+                  }}
+                  className="text-sm font-medium text-gray-600 flex items-center space-x-2 hover:text-blue-600 transition-colors duration-200"
+                >
+                  <span className="inline-flex items-center justify-center w-6 h-6 bg-yellow-100 text-yellow-600 rounded-full">
+                    <MessageSquare className="w-4 h-4" />
+                  </span>
+                  <span>Content revision input (Optional)</span>
+                </button>
                 <div className="flex items-center text-blue-500 group-hover:text-blue-600 transition-colors duration-200">
                   <ArrowRight className="w-4 h-4" />
                 </div>
@@ -417,6 +607,46 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
           </div>
         ))}
       </div>
+
+      {/* Comment Modal */}
+      {showCommentModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-xl p-6 max-w-lg w-full mx-4 relative">
+            <button
+              onClick={() => setShowCommentModal(null)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Add Comments to Modify</h3>
+            <div className="mb-4">
+              <h4 className="text-md font-semibold text-gray-800">{ideas.find((idea) => idea.id === showCommentModal)?.title}</h4>
+              <p className="text-sm text-gray-600">{ideas.find((idea) => idea.id === showCommentModal)?.description}</p>
+            </div>
+            <textarea
+              onChange={(e) => handleCommentChange(showCommentModal, e.target.value)}
+              value={commentMap[showCommentModal] || ''}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-700"
+              placeholder="Add your comments here..."
+              rows={5}
+            />
+            <div className="flex justify-end space-x-4 mt-4">
+              <button
+                onClick={() => setShowCommentModal(null)}
+                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleCommentSubmit(ideas.find((idea) => idea.id === showCommentModal)!)}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200"
+              >
+                Submit & Proceed
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

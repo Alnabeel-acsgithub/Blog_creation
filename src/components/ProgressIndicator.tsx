@@ -9,8 +9,8 @@ interface ProgressIndicatorProps {
 const steps = [
   { key: 'input', label: 'Input Details', number: 1 },
   { key: 'ideas', label: 'Generate Ideas', number: 2 },
-  { key: 'content', label: 'Create Content', number: 3 },
-  { key: 'image', label: 'Add Visuals', number: 4 },
+  { key: 'content', label: 'Create Text', number: 3 },
+  { key: 'image', label: 'Add Images/Videos', number: 4 },
   { key: 'social', label: 'Social Media', number: 5 },
   { key: 'preview', label: 'Preview & Post', number: 6 },
 ];

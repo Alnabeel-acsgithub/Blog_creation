@@ -24,8 +24,8 @@ interface PreviewAndPostProps {
 }
 
 const platformIcons = {
-  twitter: X,
   linkedin: Linkedin,
+  twitter: X,
   facebook: Facebook,
   instagram: Instagram,
 };
