@@ -77,6 +77,8 @@ function App() {
   const handleLogoutConfirm = async () => {
     await signOutUser();
     setUser(null);
+    localStorage.clear(); // Clear all local storage data
+    setCurrentStep('input');
     setShowLogoutModal(false);
   };
   const handleLogoutCancel = () => {
