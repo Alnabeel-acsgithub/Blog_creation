@@ -440,7 +440,7 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
   return (
     <div className="max-w-6xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Choose Your Blog Topic</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">Choose your blog topic</h2>
         <p className="text-lg text-gray-600">Select an idea that resonates with your audience, or regenerate for fresh options.</p>
       </div>
 
@@ -458,14 +458,14 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
             className="inline-flex items-center px-6 py-3 bg-white border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-sm hover:shadow-md"
           >
             <Plus className="w-5 h-5 mr-2" />
-            Add Your Own Idea
+            Add your own Idea
           </button>
         )}
       </div>
 
       {showCustomForm && (
         <div className="mb-6 bg-white rounded-2xl shadow-lg p-6">
-          <h3 className="text-lg font-bold text-gray-900 mb-4">Add Your Custom Idea</h3>
+          <h3 className="text-lg font-bold text-gray-900 mb-4">Add your custom idea</h3>
           <div className="space-y-4">
             <div>
               Title <span className="text-red-500">*</span>
@@ -615,37 +615,50 @@ export const IdeaGeneration: React.FC<IdeaGenerationProps> = ({ inputs, onSelect
       {/* Comment Modal */}
       {showCommentModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl shadow-xl p-6 max-w-lg w-full mx-4 relative">
+          <div className="bg-white rounded-2xl shadow-xl p-8 max-w-lg w-full mx-4 relative transition-all transform hover:scale-105">
+            {/* Close Button */}
             <button
               onClick={() => setShowCommentModal(null)}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none"
             >
               <X className="w-5 h-5" />
             </button>
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Add Comments to Modify</h3>
-            <div className="mb-4">
-              <h4 className="text-md font-semibold text-gray-800">{ideas.find((idea) => idea.id === showCommentModal)?.title}</h4>
-              <p className="text-sm text-gray-600">{ideas.find((idea) => idea.id === showCommentModal)?.description}</p>
+
+            {/* Modal Title */}
+            <h3 className="text-2xl font-semibold text-gray-900 mb-6">Add comments to modify</h3>
+
+            {/* Modal Content */}
+            <div className="mb-6">
+              <h4 className="text-lg font-semibold text-gray-800">
+                {ideas.find((idea) => idea.id === showCommentModal)?.title}
+              </h4>
+              <p className="text-sm text-gray-600">
+                {ideas.find((idea) => idea.id === showCommentModal)?.description}
+              </p>
             </div>
+
+            {/* Textarea for Comments */}
             <textarea
               onChange={(e) => handleCommentChange(showCommentModal, e.target.value)}
               value={commentMap[showCommentModal] || ''}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-700"
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-700 transition-all duration-300 ease-in-out"
               placeholder="Add your comments here..."
               rows={5}
             />
-            <div className="flex justify-end space-x-4 mt-4">
+
+            {/* Action Buttons */}
+            <div className="flex justify-end space-x-6 mt-6">
               <button
                 onClick={() => setShowCommentModal(null)}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                className="px-6 py-3 text-gray-600 hover:text-gray-800 bg-gray-200 rounded-lg transition-colors duration-200 ease-in-out"
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleCommentSubmit(ideas.find((idea) => idea.id === showCommentModal)!)}
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200"
+                className="px-6 py-3 bg-gradient-to-r from-blue-500 to-teal-500 text-white rounded-lg hover:from-blue-600 hover:to-teal-600 transition-all duration-200 ease-in-out"
               >
-                Submit & Proceed
+                Submit & proceed
               </button>
             </div>
           </div>

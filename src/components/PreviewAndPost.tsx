@@ -162,7 +162,7 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
                   />
                   <div className="mt-6 p-4 bg-gray-50 rounded-lg">
                     <p className="text-sm text-gray-600 italic">
-                      This is a preview of your blog post. The full content contains {Math.ceil(post.content.length / 500)} paragraphs and approximately {post.content.split(' ').length} words.
+                      This is a preview of your post. The full content contains {Math.ceil(post.content.length / 500)} paragraphs and approximately {post.content.split(' ').length} words.
                     </p>
                   </div>
                 </div>
@@ -268,41 +268,6 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
                       )}
                     </div>
           
-                      {/* <div className="relative">
-                        <img
-                          src={image.url}
-                          alt={`Social preview for ${socialPost.platform}`}
-                          className="w-full rounded-lg border border-gray-200"
-                        />
-                        <button
-                          onClick={() => {
-                            const link = document.createElement('a');
-                            link.href = image.url;
-                            link.download = `${post.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_${socialPost.platform}_image.jpg`;
-                            link.click();
-                          }}
-                          className="absolute top-2 right-2 bg-white text-gray-700 px-3 py-1 text-sm rounded-lg shadow hover:bg-gray-100 transition"
-                        >
-                          <Download className="w-4 h-4 inline mr-1" />
-                          Download Image
-                        </button>
-                      </div>
-                    </div> */}
-
-                    
-                    {/* <div className="bg-white rounded-lg p-4 border border-gray-200">
-                      <p className="text-gray-800 whitespace-pre-wrap">{socialPost.content}</p>
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {socialPost.hashtags.slice(0, 8).map((tag, index) => (
-                          <span
-                            key={index}
-                            className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div> */}
                   </div>
                 );
               })}

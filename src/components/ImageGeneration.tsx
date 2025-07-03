@@ -290,7 +290,7 @@ export const ImageGeneration: React.FC<ImageGenerationProps> = ({
           <div className="mt-8">
             <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-500 border-t-transparent mx-auto mb-4"></div>
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Creating Your Featured Image...</h3>
-            <p className="text-gray-600">Generating a stunning visual that perfectly complements your blog post content.</p>
+            <p className="text-gray-600">Generating a stunning visual that perfectly complements your post content.</p>
           </div>
         </div>
       </div>
@@ -301,7 +301,7 @@ export const ImageGeneration: React.FC<ImageGenerationProps> = ({
     <div className="max-w-5xl mx-auto">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Your featured image is ready!</h2>
-        <p className="text-lg text-gray-600">Perfect visual to complement your blog post. Customize or proceed to create social media content.</p>
+        <p className="text-lg text-gray-600">Perfect visual to complement your post. Customise or proceed to create social media content.</p>
       </div>
 
       {/* Generated Image Display */}

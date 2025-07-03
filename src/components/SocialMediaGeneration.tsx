@@ -246,7 +246,7 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
           </div>
           <div className="mt-8">
             <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-500 border-t-transparent mx-auto mb-4"></div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Creating Social Media Posts...</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Creating social media posts...</h3>
             <p className="text-gray-600">Generating engaging content optimized for each platform.</p>
           </div>
         </div>
@@ -258,7 +258,7 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
     <div className="max-w-6xl mx-auto">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Social media content ready!</h2>
-        <p className="text-lg text-gray-600">Customize your posts and images for each platform, then select which ones to include in your campaign.</p>
+        <p className="text-lg text-gray-600">Customise your posts and images for each platform, then select which ones to include in your campaign.</p>
       </div>
 
       {/* Platform Selection */}

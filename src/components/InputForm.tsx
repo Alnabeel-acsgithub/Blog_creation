@@ -1,4 +1,4 @@
-import { ArrowRight, Building2, Globe, MessageSquare, Users } from 'lucide-react';
+import { ArrowRight, Building2, ArrowLeft, Globe, MessageSquare, Users, ChevronDown } from 'lucide-react';
 import React, { useState } from 'react';
 import { BlogInputs } from '../types';
 
@@ -13,7 +13,19 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
     business_type : "",
     tone_of_voice:"professional",
    
-});
+  });
+  
+  const businessOptions = [
+    'SaaS',
+    'E-commerce',
+    'Consulting',
+    'Healthcare',
+    'Education',
+    'Finance',
+    'Real Estate',
+    'Hospitality',
+    'Marketing Agency',
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,6 +33,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   };
 
   const isFormValid = inputs.website_url && inputs.business_type && inputs.target_audience;
+  const [isOtherSelected, setIsOtherSelected] = useState(false);
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -51,6 +64,65 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
               <Building2 className="w-5 h-5 mr-2 text-purple-500" />
               Business type / Industry
             </label>
+
+            {!isOtherSelected ? (
+              <div className="relative">
+                <select
+                  value={inputs.business_type}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value === 'Other') {
+                      setIsOtherSelected(true);
+                      setInputs({ ...inputs, business_type: '' });
+                    } else {
+                      setInputs({ ...inputs, business_type: value });
+                    }
+                  }}
+                  size={1} 
+                  className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 appearance-none"
+                  style={{
+                    maxHeight: '120px', // Limit height
+                    overflowY: 'auto', // Enable scroll inside
+                  }}
+                >
+                  <option value="" disabled>Select business type</option>
+                  {businessOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                  <option value="Other">Other</option>
+                </select>
+                <ChevronDown className="w-5 h-5 absolute right-3 top-3.5 text-gray-400 pointer-events-none" />
+              </div>
+            ) : (
+              <div className="relative">
+                <input
+                  type="text"
+                  value={inputs.business_type}
+                  onChange={(e) => setInputs({ ...inputs, business_type: e.target.value })}
+                  className="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                  placeholder="Enter custom business type"
+                  required
+                />
+                {/* Icon to go back to dropdown */}
+                <ArrowLeft
+                  className="w-5 h-5 absolute left-3 top-3.5 text-purple-500 cursor-pointer hover:text-purple-700 transition"
+                  onClick={() => {
+                    setIsOtherSelected(false);
+                    setInputs({ ...inputs, business_type: '' }); // Optional: clear input
+                  }}
+                />
+              </div>
+            )}
+          </div>
+
+
+          {/* <div>
+            <label className="flex items-center text-sm font-medium text-gray-700 mb-3">
+              <Building2 className="w-5 h-5 mr-2 text-purple-500" />
+              Business type / Industry
+            </label>
             <input
               type="text"
               value={inputs.business_type}
@@ -59,7 +131,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
               placeholder="e.g., SaaS, E-commerce, Consulting, Healthcare"
               required
             />
-          </div>
+          </div> */}
 
           <div>
             <label className="flex items-center text-sm font-medium text-gray-700 mb-3">
