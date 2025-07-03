@@ -79,7 +79,7 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
   return (
     <div className="max-w-7xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Final Preview & Publishing</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">Final preview & publishing</h2>
         <p className="text-lg text-gray-600">Review your complete content package and publish to your chosen platforms.</p>
       </div>
 
@@ -98,7 +98,7 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
               `}
             >
               <Eye className="w-5 h-5 inline mr-2" />
-              Blog Preview
+              Blog preview
             </button>
             <button
               onClick={() => setActiveTab('social')}
@@ -111,7 +111,7 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
               `}
             >
               <Share2 className="w-5 h-5 inline mr-2" />
-              Social Media Posts ({socialPosts.length})
+              Social media posts ({socialPosts.length})
             </button>
           </nav>
         </div>
@@ -122,11 +122,13 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
               {/* Blog Post Preview */}
               <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
                 <div className="relative">
-                  <img
-                    src={image.url}
-                    alt="Gen Image"
-                    className="w-full h-64 object-cover"
-                  />
+                  <div className="w-full">
+                    <img
+                      src={image.url}
+                      alt="Gen Image"
+                      className="w-full h-auto"
+                    />
+                  </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   <div className="absolute bottom-6 left-6 right-6 text-white">
                     <h1 className="text-3xl font-bold mb-3">{post.title}</h1>
@@ -220,20 +222,6 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
                           </div>
                         ) : (
                           <div className="flex space-x-2">
-                            {/* <input
-                              type="datetime-local"
-                              onChange={(e) => handleSchedulePost(socialPost.platform, e.target.value)}
-                              className="px-3 py-1 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            /> */}
-                            {/* <button
-                              onClick={() => handlePostToSocial(socialPost.platform)}
-                              className={`
-                                px-4 py-2 text-sm font-medium text-white rounded-lg transition-all duration-200
-                                ${platformColors[socialPost.platform]} hover:opacity-90
-                              `}
-                            >
-                              Post Now
-                            </button> */}
                           </div>
                         )}
                       </div>
@@ -325,7 +313,7 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
 
       {/* Summary Stats */}
       <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-        <h3 className="text-xl font-bold text-gray-900 mb-6">Content Package Summary</h3>
+        <h3 className="text-xl font-bold text-gray-900 mb-6">Content package summary</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           <div className="text-center p-4 bg-blue-50 rounded-lg">
             <div className="text-2xl font-bold text-blue-600 mb-1">1</div>
@@ -353,7 +341,7 @@ export const PreviewAndPost: React.FC<PreviewAndPostProps> = ({
           className="flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 mx-auto"
         >
           <RefreshCw className="w-5 h-5 mr-2" />
-          Create Another Content Package
+          Create another content package
         </button>
       </div>
     </div>

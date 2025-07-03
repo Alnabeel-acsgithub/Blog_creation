@@ -93,6 +93,7 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
   const [copiedPlatform, setCopiedPlatform] = useState<string>('');
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(['linkedin', 'twitter',]);
   const generatedPlatforms = useRef<Set<string>>(new Set());
+  const generatingPlatforms = useRef<Set<string>>(new Set());
 
   // Generate social media posts
   const generateSocialPosts = async () => {
@@ -116,6 +117,9 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
   // Generate platform-specific image
 
   const generatePlatformImage = async (platform: string) => {
+    if (generatingPlatforms.current.has(platform)) return;
+    generatingPlatforms.current.add(platform);
+
     setPlatformImages(prev => ({
       ...prev,
       [platform]: { ...prev[platform], loading: true } as PlatformImage,
@@ -123,35 +127,34 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
 
     let imageUrl;
 
-    // Generate image URL for the selected platform
-    if (platform === 'twitter') {
-      const url = { content: post.content, platform: "twitter" };
-      imageUrl = await socialMediaImage1(url);
-    } else if (platform === 'linkedin') {
-      const url = { content: post.content, platform: "linkedin" };
-      imageUrl = await socialMediaImage2(url);
-    } else if (platform === 'facebook') {
-      const url = { content: post.content, platform: "facebook" };
-      imageUrl = await socialMediaImage3(url);
-    } else if (platform === 'instagram') {
-      const url = { content: post.content, platform: "instagram" };
-      imageUrl = await socialMediaImage4(url);
+    try {
+      const url = { content: post.content, platform };
+      if (platform === 'twitter') {
+        imageUrl = await socialMediaImage1(url);
+      } else if (platform === 'linkedin') {
+        imageUrl = await socialMediaImage2(url);
+      } else if (platform === 'facebook') {
+        imageUrl = await socialMediaImage3(url);
+      } else if (platform === 'instagram') {
+        imageUrl = await socialMediaImage4(url);
+      }
+
+      const config = platformConfigs[platform];
+
+      const generatedImage: PlatformImage = {
+        url: imageUrl ?? '',
+        prompt: `${config.imagePrompt} for "${post.title}". ${config.imageSize} dimensions.`,
+        alt: `${config.name} image for ${post.title}`,
+        loading: false,
+      };
+
+      setPlatformImages(prev => ({
+        ...prev,
+        [platform]: generatedImage,
+      }));
+    } finally {
+      generatingPlatforms.current.delete(platform); // Clean up
     }
-
-    // Ensure imageUrl is always a string (fallback to an empty string if it's null or undefined)
-    const config = platformConfigs[platform];
-
-    const generatedImage: PlatformImage = {
-      url: imageUrl ?? '',  // Fallback to an empty string if imageUrl is null or undefined
-      prompt: `${config.imagePrompt} for "${post.title}". ${config.imageSize} dimensions.`,
-      alt: `${config.name} image for ${post.title}`,
-      loading: false,
-    };
-
-    setPlatformImages(prev => ({
-      ...prev,
-      [platform]: generatedImage,
-    }));
   };
 
   // Auto-generate images for selected platforms
@@ -391,15 +394,12 @@ export const SocialMediaGeneration: React.FC<SocialMediaGenerationProps> = ({
                           </div>
                         </div>
                       </div>
-                    ) : isSelected ? (
-                      <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
-                        <button
-                          onClick={() => generatePlatformImage(socialPost.platform)}
-                          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
-                        >
-                          <ImageIcon className="w-5 h-5 mr-2" />
-                          Generate Image
-                        </button>
+                      ) : isSelected && !platformImage?(
+                          <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
+                            <div className="text-center">
+                              <Loader2 className="w-6 h-6 animate-spin text-blue-500 mx-auto mb-2" />
+                              <p className="text-sm text-gray-500">Generating image...</p>
+                            </div>
                       </div>
                     ) : (
                       <div className="aspect-video bg-gray-50 rounded-lg flex items-center justify-center">

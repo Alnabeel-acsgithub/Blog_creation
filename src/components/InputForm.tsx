@@ -26,7 +26,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
     <div className="max-w-2xl mx-auto">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Tell us about your requirements</h2>
-        <p className="text-lg text-gray-600">We'll use this information to create targeted, engaging blog content for your audience.</p>
+        <p className="text-lg text-gray-600">We’ll use this information to create targeted, engaging content for your audience.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -41,7 +41,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
               value={inputs.website_url}
               onChange={(e) => setInputs({ ...inputs, website_url: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-              placeholder="https://yourwebsite.com"
+              placeholder="e.g., https://example-competitor.com"
               required
             />
           </div>
@@ -49,7 +49,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
           <div>
             <label className="flex items-center text-sm font-medium text-gray-700 mb-3">
               <Building2 className="w-5 h-5 mr-2 text-purple-500" />
-              Business type / industry
+              Business type / Industry
             </label>
             <input
               type="text"
