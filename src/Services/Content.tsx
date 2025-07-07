@@ -10,8 +10,8 @@ interface BlogPayload {
 
 export async function fetchBlog(payload: BlogPayload) {
   try {
-    
-    const response = await fetch("https://workflows.agilecyber.com/webhook/blog/content_create", {
+
+    const response = await fetch("https://workflows.agilecyber.com/webhook/blog/content_create_product", {
       method: "POST",  // or "GET" depending on your backend design
       headers: {
         "Content-Type": "application/json"

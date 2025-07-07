@@ -2,11 +2,11 @@
 
 import { BusinessContentPayload } from "../types";
 
-export async function fetchBlogIdeas(payload:BusinessContentPayload) {
+export async function fetchBlogIdeas(payload: BusinessContentPayload) {
   try {
-    console.log(payload,"pppppppp");
-    
-    const response = await fetch("https://workflows.agilecyber.com/webhook/blog_ideas_form_submit", {
+    console.log(payload, "pppppppp");
+
+    const response = await fetch("https://workflows.agilecyber.com/webhook/blog_ideas_form_submit_product", {
       method: "POST",  // or "GET" depending on your backend design
       headers: {
         "Content-Type": "application/json"

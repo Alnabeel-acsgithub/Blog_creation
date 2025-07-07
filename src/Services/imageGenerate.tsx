@@ -1,6 +1,6 @@
-export async function blogImage(payload: string ): Promise<string | null> {
+export async function blogImage(payload: string): Promise<string | null> {
   try {
-    const response = await fetch("https://workflows.agilecyber.com/webhook/image_generation", {
+    const response = await fetch("https://workflows.agilecyber.com/webhook/image_generation_product", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

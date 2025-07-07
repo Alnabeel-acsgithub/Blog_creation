@@ -2,8 +2,8 @@ import { SocialMediaPayload } from "../types";
 
 export async function socialMediaContent(payload: SocialMediaPayload) {
   try {
-    
-    const response = await fetch("https://workflows.agilecyber.com/webhook/create_social_media_content", {
+
+    const response = await fetch("https://workflows.agilecyber.com/webhook/create_social_media_content_product", {
       method: "POST",  // or "GET" depending on your backend design
       headers: {
         "Content-Type": "application/json"
