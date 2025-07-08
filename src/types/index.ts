@@ -18,11 +18,21 @@ export interface SocialMediaPayload {
 }
 
 
+// export interface BlogInputs {
+//   website_url: string;
+//   business_type: string;
+//   target_audience: string;
+//   tone_of_voice: string;
+// }
+
 export interface BlogInputs {
+  company_name: string;
   website_url: string;
-  business_type: string;
+  our_website_url: string;
   target_audience: string;
+  business_type: string;
   tone_of_voice: string;
+  keywords: string[];
 }
 
 
